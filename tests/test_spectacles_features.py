@@ -272,3 +272,54 @@ def test_feature_n_waveguide_optical_contrast_and_focus_sync():
     assert "infinitySetFocusTargets" in code
     assert "infinityFocusNext" in code
     assert "infinityFocusPrevious" in code
+
+
+def test_feature_o_ink_ml_classifier_and_onnx_model():
+    """Verify SnapML ink_cnn.onnx model and on-device InkMlClassifier."""
+    ml_dir = os.path.join(TT_ASSETS, "ML")
+    assert os.path.exists(ml_dir), "Missing tt/Assets/ML directory"
+    assert os.path.exists(os.path.join(ml_dir, "ink_cnn.onnx")), "Missing ink_cnn.onnx"
+
+    classifier_ts = os.path.join(TT_ASSETS, "InkMlClassifier.ts")
+    assert os.path.exists(classifier_ts), "Missing InkMlClassifier.ts"
+    with open(classifier_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "InkMlClassifier" in code
+    assert "INK_CNN_SIZE = 64" in code
+    assert "INK_CNN_LABELS" in code
+    assert "classifyStrokes" in code
+    assert "runImmediate(true)" in code
+
+
+def test_feature_p_hand_pose_engine_fist_and_finger_extension():
+    """Verify HandPoseEngine fist dismiss and finger extension guard math (from QWERTY)."""
+    pose_ts = os.path.join(TT_ASSETS, "HandPoseEngine.ts")
+    assert os.path.exists(pose_ts), "Missing HandPoseEngine.ts"
+    with open(pose_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "HandPoseEngine" in code
+    assert "DISMISS_FIST_TIP_CM = 4.8" in code
+    assert "isDismissFist" in code
+    assert "isFingerExtended" in code
+    assert "isPalmModifierPinch" in code
+    assert "infinityIsDismissFist" in code
+
+
+def test_feature_q_desk_ergonomic_tilt_and_pairing_code_alphabet():
+    """Verify 35-deg ergonomic desk recline, 1.2cm lift, and 32-char pairing alphabet."""
+    kernel_js = os.path.join(TT_ASSETS, "InfinityOSKernel.js")
+    with open(kernel_js, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "surfaceTiltDeg = 35.0" in code
+    assert "surfaceLiftCm = 1.2" in code
+    assert "checkFistDismiss" in code
+
+    socket_ts = os.path.join(TT_ASSETS, "InfinityCompanionSocket.ts")
+    with open(socket_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "CODE_ALPHABET" in code
+    assert "generatePairingCode" in code

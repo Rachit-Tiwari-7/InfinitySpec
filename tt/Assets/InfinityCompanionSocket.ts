@@ -8,13 +8,25 @@
  * external notes and the Spectacles spatial study canvas.
  *
  * Features:
+ * - Unambiguous 6-character pairing code alphabet (from QWERTY architecture).
  * - Exponential backoff reconnect with +/-20% jitter.
  * - Heartbeat ping-pong latency tracking.
  * - Live injection of desktop study notes and vault items into 3D space.
  *
- * Adapted from OpenBandSocket for INFINITY Spatial OS.
+ * Adapted from OpenBandSocket & QWERTY CloudRelay for INFINITY Spatial OS.
  * Lens Studio 5.24+ / SPECS Project Mode / TypeScript.
  */
+
+export const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // 32 chars, excludes ambiguous 0, O, 1, I
+
+export function generatePairingCode(length: number = 6): string {
+    let code = "";
+    for (let i = 0; i < length; i++) {
+        const idx = Math.floor(Math.random() * CODE_ALPHABET.length);
+        code += CODE_ALPHABET.charAt(idx);
+    }
+    return code;
+}
 
 @component
 export class InfinityCompanionSocket extends BaseScriptComponent {
@@ -32,8 +44,8 @@ export class InfinityCompanionSocket extends BaseScriptComponent {
     relayUrl: string = "wss://echo.websocket.events";
 
     @input
-    @hint("Room / Channel ID for paired companion session.")
-    roomCode: string = "INF-STUDY";
+    @hint("Room / Channel ID for paired companion session (leave empty for auto 6-char PIN).")
+    roomCode: string = "";
 
     @input
     @hint("Enable debug print logging.")
@@ -46,6 +58,11 @@ export class InfinityCompanionSocket extends BaseScriptComponent {
     private heartbeatTimer: DelayedCallbackEvent | null = null;
 
     onAwake(): void {
+        if (!this.roomCode || this.roomCode === "INF-STUDY") {
+            this.roomCode = generatePairingCode(6);
+        }
+        (globalThis as any).infinityCompanionRoomCode = this.roomCode;
+
         this.reconnectTimer = this.createEvent("DelayedCallbackEvent");
         this.reconnectTimer.bind(() => this.connect());
 
@@ -80,7 +97,7 @@ export class InfinityCompanionSocket extends BaseScriptComponent {
         try {
             const url = this.relayUrl + (this.relayUrl.indexOf("?") === -1 ? "?" : "&") + "room=" + this.roomCode;
             if (this.debugLogging) {
-                print("[INFINITY SOCKET] Connecting to companion: " + url);
+                print("[INFINITY SOCKET] Connecting to companion: " + url + " [PIN: " + this.roomCode + "]");
             }
 
             this.socket = module.createWebSocket(url);
@@ -88,7 +105,7 @@ export class InfinityCompanionSocket extends BaseScriptComponent {
             this.socket.onOpen.add(() => {
                 this.isConnected = true;
                 this.reconnectAttempt = 0;
-                print("[INFINITY SOCKET] ✓ Live companion connection established.");
+                print("[INFINITY SOCKET] ✓ Live companion connection established (Room: " + this.roomCode + ")");
                 (globalThis as any).infinityCompanionConnected = true;
 
                 // Send handshake
@@ -179,5 +196,9 @@ export class InfinityCompanionSocket extends BaseScriptComponent {
 
     public getConnected(): boolean {
         return this.isConnected;
+    }
+
+    public getPairingCode(): string {
+        return this.roomCode;
     }
 }

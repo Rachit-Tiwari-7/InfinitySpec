@@ -73,8 +73,44 @@ function initNativeSIKHandTracking() {
     } catch(e) {}
 }
 
+function checkFistDismiss(hand) {
+    if (!hand || !hand.thumbTip || !hand.thumbTip.position) return false;
+    var palm = (typeof hand.getPalmCenter === "function") ? hand.getPalmCenter() : null;
+    if (!palm && hand.wrist && hand.middleKnuckle && hand.wrist.position && hand.middleKnuckle.position) {
+        palm = hand.wrist.position.add(hand.middleKnuckle.position).uniformScale(0.5);
+    }
+    if (!palm) return false;
+    var tips = [hand.indexTip, hand.middleTip, hand.ringTip, hand.pinkyTip];
+    for (var t = 0; t < tips.length; t++) {
+        if (!tips[t] || !tips[t].position) return false;
+        if (tips[t].position.distance(palm) >= 4.8) return false;
+    }
+    return hand.thumbTip.position.distance(palm) < 5.2;
+}
+
 function updateNativeSIKGestures(dt) {
     if (!nativeHandTrackingInitialized) return;
+
+    // Check closed-fist dismiss gesture (from QWERTY HandPose math)
+    if (!state.fistDismissed && (checkFistDismiss(state.rightHand) || checkFistDismiss(state.leftHand))) {
+        state.fistDismissed = true;
+        for (var fn = state.notes.length - 1; fn >= 0; fn--) {
+            var nFist = state.notes[fn];
+            if (nFist.id && nFist.id.indexOf("Voice") !== -1) {
+                if (nFist.obj) nFist.obj.destroy();
+                if (nFist.labelObj) nFist.labelObj.destroy();
+                state.notes.splice(fn, 1);
+            }
+        }
+        if (state.voiceHud && state.voiceHudLabel) {
+            setTextContent(state.voiceHudLabel, "[ ✦ CANVAS MINIMIZED // CLOSED-FIST GESTURE ]", 4.2);
+            applyMaterialStyle(state.voiceHud, null, new vec4(0.8, 0.2, 0.4, 0.95));
+            state.voiceHudTimer = 2.5;
+        }
+        if (typeof global.infinityPlayAudioChime === "function") global.infinityPlayAudioChime(false);
+    } else if (!checkFistDismiss(state.rightHand) && !checkFistDismiss(state.leftHand)) {
+        state.fistDismissed = false;
+    }
 
     // 1. Process Joint Tracking with Pinch Hysteresis
     if (state.rightHand) {
@@ -1337,6 +1373,8 @@ function SurfaceTrackingManager(kernelState) {
     this.kernel = kernelState;
     this.worldQuery = null;
     this.calibratedHeight = -18.0; // cm relative to camera
+    this.surfaceTiltDeg = 35.0;     // Ergonomic 35° recline toward user (from QWERTY)
+    this.surfaceLiftCm = 1.2;       // +1.2cm clearance so fingers poke hologram before wood table
     this.surfaceSnapping = true;
     this.initWorldQuery();
 }
@@ -1375,6 +1413,11 @@ SurfaceTrackingManager.prototype.adjustDeskElevation = function(deltaY) {
 
 SurfaceTrackingManager.prototype.updateSurfacePositions = function() {
     var state = this.kernel.state;
+    var effectiveY = this.calibratedHeight + (this.surfaceLiftCm || 1.2);
+    var tiltRad = (this.surfaceTiltDeg || 35.0) * (Math.PI / 180.0);
+    var pitchRad = ((this.surfaceTiltDeg || 35.0) - 90.0) * (Math.PI / 180.0);
+    var tiltQuat = quat.fromEulerAngles(pitchRad, 0, 0);
+
     if (state.deskSurface) {
         var p = state.deskSurface.getTransform().getWorldPosition();
         state.deskSurface.getTransform().setWorldPosition(new vec3(p.x, this.calibratedHeight, p.z));
@@ -1383,10 +1426,12 @@ SurfaceTrackingManager.prototype.updateSurfacePositions = function() {
         state.deskTrim.getTransform().setWorldPosition(new vec3(0.0, this.calibratedHeight + 0.7, -70.0));
     }
     if (state.textbookMarker) {
-        state.textbookMarker.getTransform().setWorldPosition(new vec3(-18.0, this.calibratedHeight + 0.8, -64.0));
+        state.textbookMarker.getTransform().setWorldPosition(new vec3(-18.0, effectiveY, -64.0));
+        state.textbookMarker.getTransform().setLocalRotation(tiltQuat);
     }
     if (state.textbookLabel) {
-        state.textbookLabel.getTransform().setWorldPosition(new vec3(-18.0, this.calibratedHeight + 1.2, -64.0));
+        state.textbookLabel.getTransform().setWorldPosition(new vec3(-18.0, effectiveY + 0.4, -64.0));
+        state.textbookLabel.getTransform().setLocalRotation(tiltQuat);
     }
     if (state.deskCorners) {
         for (var i = 0; i < state.deskCorners.length; i++) {
