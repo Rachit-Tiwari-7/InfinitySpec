@@ -210,3 +210,65 @@ def test_feature_j_sik_pinch_hysteresis_and_crush_gesture():
     assert "infinityOnDeskDetected" in code
     assert "infinityVoiceInterimUpdate" in code
     assert "crush" in code.lower() or "crushed" in code.lower()
+
+
+def test_feature_k_infinity_custom_interactor():
+    """Verify SIK CustomController interactor implementation (derived from OpenBand)."""
+    interactor_ts = os.path.join(TT_ASSETS, "InfinityCustomInteractor.ts")
+    assert os.path.exists(interactor_ts), "Missing InfinityCustomInteractor.ts"
+    with open(interactor_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "InfinityCustomInteractor" in code
+    assert "BaseInteractor" in code
+    assert "CustomController" in code
+    assert "setPinchDown" in code
+    assert "pulsePinch" in code
+    assert "updateState" in code
+
+
+def test_feature_l_infinity_focus_navigation_group():
+    """Verify discrete spatial focus navigation ring with boundary clamping and Z-lift."""
+    focus_ts = os.path.join(TT_ASSETS, "InfinityFocusNavigationGroup.ts")
+    assert os.path.exists(focus_ts), "Missing InfinityFocusNavigationGroup.ts"
+    with open(focus_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "InfinityFocusNavigationGroup" in code
+    assert "focusLiftZ" in code
+    assert "focusScale" in code
+    assert "step(" in code
+    assert "setFocusIndex" in code
+    assert "infinityFocusNext" in code
+    assert "infinityFocusPrevious" in code
+    assert "infinitySetFocusTargets" in code
+
+
+def test_feature_m_infinity_companion_socket():
+    """Verify native InternetModule WebSocket transport for companion sync."""
+    socket_ts = os.path.join(TT_ASSETS, "InfinityCompanionSocket.ts")
+    assert os.path.exists(socket_ts), "Missing InfinityCompanionSocket.ts"
+    with open(socket_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "InfinityCompanionSocket" in code
+    assert "InternetModule" in code
+    assert "createWebSocket" in code
+    assert "scheduleReconnect" in code
+    assert "infinityDictateVoiceNote" in code
+    assert "infinityCompanionConnected" in code
+
+
+def test_feature_n_waveguide_optical_contrast_and_focus_sync():
+    """Verify waveguide optical constants, chime hook, and focus sync in kernel."""
+    kernel_js = os.path.join(TT_ASSETS, "InfinityOSKernel.js")
+    with open(kernel_js, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "WAVEGUIDE_DARK_BG" in code
+    assert "WAVEGUIDE_ACCENT_CYAN" in code
+    assert "WAVEGUIDE_FOCUS_GOLD" in code
+    assert "infinityPlayAudioChime" in code
+    assert "infinitySetFocusTargets" in code
+    assert "infinityFocusNext" in code
+    assert "infinityFocusPrevious" in code

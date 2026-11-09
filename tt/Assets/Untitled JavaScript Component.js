@@ -179,7 +179,12 @@ function checkTwoHandFramingGesture() {
 
 // ------------------------------------------------------------------------------
 // Native Spectacles Interaction Kit (SIK) & Audio Feedback Bridges
+// (Incorporating Waveguide Optical Tuning & Focus Feedback from OpenBand Architecture)
 // ------------------------------------------------------------------------------
+var WAVEGUIDE_DARK_BG = new vec4(0.04, 0.08, 0.16, 0.90); // Additive-safe: avoids pure-black transparency
+var WAVEGUIDE_ACCENT_CYAN = new vec4(0.0, 0.94, 1.0, 0.95); // Luminous waveguide cyan
+var WAVEGUIDE_FOCUS_GOLD = new vec4(1.0, 0.75, 0.08, 0.95);  // High-contrast focus indicator
+
 var audioPlayer = null;
 function initAudioFeedbackSystem() {
     try {
@@ -187,6 +192,13 @@ function initAudioFeedbackSystem() {
         audioPlayer = audioObj.createComponent("Component.AudioComponent");
     } catch(e) {}
 }
+
+global.infinityPlayAudioChime = function(success) {
+    if (audioPlayer && script.sndTriggerStart) {
+        audioPlayer.audioTrack = success ? script.sndTriggerStart : (script.sndTriggerEnd || script.sndTriggerStart);
+        try { audioPlayer.play(1); } catch(e) {}
+    }
+};
 
 function attachSIKInteractable(sceneObj, onTriggerCallback, onHoverCallback) {
     if (!sceneObj) return;
@@ -2006,6 +2018,17 @@ function enterFocusMode(workspaceKey) {
     }
 
     state.pulseEnergy = 1.0;
+
+    // Sync discrete focus targets with InfinityFocusNavigationGroup
+    if (typeof global.infinitySetFocusTargets === "function" && state.notes) {
+        var focusTargets = [];
+        for (var ft = 0; ft < state.notes.length; ft++) {
+            if (state.notes[ft] && state.notes[ft].obj) {
+                focusTargets.push(state.notes[ft].obj);
+            }
+        }
+        global.infinitySetFocusTargets(focusTargets);
+    }
 }
 
 function returnToGalaxy() {
@@ -2409,6 +2432,28 @@ function handleVoiceCommand(cmd) {
         if (state.surfaceManager) state.surfaceManager.adjustDeskElevation(-5.0);
     } else if (c.indexOf("calibrate") !== -1 || c.indexOf("table") !== -1) {
         if (state.surfaceManager) state.surfaceManager.snapToPhysicalSurface();
+    } else if (c.indexOf("next") !== -1) {
+        if (typeof global.infinityFocusNext === "function") {
+            global.infinityFocusNext();
+            if (state.voiceHud && state.voiceHudLabel) {
+                setTextContent(state.voiceHudLabel, "[ ✦ FOCUS -> NEXT STUDY CARD ]", 4.0);
+                state.voiceHudTimer = 2.0;
+            }
+        }
+    } else if (c.indexOf("previous") !== -1 || c.indexOf("prev") !== -1 || c.indexOf("back card") !== -1) {
+        if (typeof global.infinityFocusPrevious === "function") {
+            global.infinityFocusPrevious();
+            if (state.voiceHud && state.voiceHudLabel) {
+                setTextContent(state.voiceHudLabel, "[ ✦ FOCUS -> PREVIOUS STUDY CARD ]", 4.0);
+                state.voiceHudTimer = 2.0;
+            }
+        }
+    } else if (c.indexOf("select") !== -1 || c.indexOf("open card") !== -1 || c.indexOf("activate") !== -1) {
+        if (state.voiceHud && state.voiceHudLabel) {
+            setTextContent(state.voiceHudLabel, "[ ✦ STUDY CARD ACTIVATED VIA FOCUS ]", 4.2);
+            state.voiceHudTimer = 2.5;
+        }
+        triggerAudioRipple(new vec3(0, 0, -66.0));
     } else if (c.indexOf("clear notes") !== -1 || c.indexOf("reset notes") !== -1 || c.indexOf("delete notes") !== -1) {
         for (var i = state.notes.length - 1; i >= 0; i--) {
             var n = state.notes[i];
