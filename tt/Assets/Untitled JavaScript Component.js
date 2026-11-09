@@ -22,9 +22,27 @@ print("[INFINITY] Booting Spatial Study Copilot & Ambient Knowledge Canvas...");
 
 
 // ------------------------------------------------------------------------------
-// Native SIK Hand Tracking & Dual-Pinch Framing Engine (Specs Samples Architecture)
+// Native SIK Hand Tracking, Pinch Hysteresis & Dual-Hand Transform Engine
+// (Adapted from Spatialis & Specs Samples Architecture)
 // ------------------------------------------------------------------------------
 var nativeHandTrackingInitialized = false;
+var REFERENCE_HAND_SPAN = 18.0; // cm nominal adult hand
+var PINCH_DOWN_DIST = 3.0;      // cm (closes pinch)
+var PINCH_UP_DIST = 4.5;        // cm (opens pinch - hysteresis gap prevents chatter)
+
+function measureHandSpan(hand) {
+    if (!hand) return 1.0;
+    try {
+        var wrist = hand.wrist ? hand.wrist.position : null;
+        var middle = hand.middleTip ? hand.middleTip.position : null;
+        if (wrist && middle) {
+            var span = wrist.distance(middle);
+            return Math.max(0.6, Math.min(1.6, span / REFERENCE_HAND_SPAN));
+        }
+    } catch(e) {}
+    return 1.0;
+}
+
 function initNativeSIKHandTracking() {
     if (nativeHandTrackingInitialized) return;
     try {
@@ -50,9 +68,93 @@ function initNativeSIKHandTracking() {
                 });
             }
             nativeHandTrackingInitialized = true;
-            print("[INFINITY SIK] Native 6DoF HandInputData connected successfully.");
+            print("[INFINITY SIK] Native 6DoF HandInputData connected with pinch hysteresis.");
         }
     } catch(e) {}
+}
+
+function updateNativeSIKGestures(dt) {
+    if (!nativeHandTrackingInitialized) return;
+
+    // 1. Process Joint Tracking with Pinch Hysteresis
+    if (state.rightHand) {
+        var rSpan = measureHandSpan(state.rightHand);
+        var rThumb = state.rightHand.thumbTip ? state.rightHand.thumbTip.position : null;
+        var rIndex = state.rightHand.indexTip ? state.rightHand.indexTip.position : null;
+        if (rThumb && rIndex) {
+            state.rightPinchPoint = rThumb.add(rIndex).uniformScale(0.5);
+            var rSep = rThumb.distance(rIndex);
+            if (!state.rightPinching && rSep <= PINCH_DOWN_DIST * rSpan) {
+                state.rightPinching = true;
+            } else if (state.rightPinching && rSep >= PINCH_UP_DIST * rSpan) {
+                state.rightPinching = false;
+            }
+        }
+    }
+
+    if (state.leftHand) {
+        var lSpan = measureHandSpan(state.leftHand);
+        var lThumb = state.leftHand.thumbTip ? state.leftHand.thumbTip.position : null;
+        var lIndex = state.leftHand.indexTip ? state.leftHand.indexTip.position : null;
+        if (lThumb && lIndex) {
+            state.leftPinchPoint = lThumb.add(lIndex).uniformScale(0.5);
+            var lSep = lThumb.distance(lIndex);
+            if (!state.leftPinching && lSep <= PINCH_DOWN_DIST * lSpan) {
+                state.leftPinching = true;
+            } else if (state.leftPinching && lSep >= PINCH_UP_DIST * lSpan) {
+                state.leftPinching = false;
+            }
+        }
+    }
+
+    // 2. Two-Hand Continuous Manipulation & Crush-to-Delete
+    if (state.rightPinching && state.leftPinching && state.rightPinchPoint && state.leftPinchPoint) {
+        var handSep = state.rightPinchPoint.distance(state.leftPinchPoint);
+        var midPoint = state.rightPinchPoint.add(state.leftPinchPoint).uniformScale(0.5);
+
+        // Find if targeting a study note
+        var targetNote = null;
+        for (var i = 0; i < state.notes.length; i++) {
+            var n = state.notes[i];
+            if (n.curPos && n.curPos.distance(midPoint) < 22.0) {
+                targetNote = n;
+                break;
+            }
+        }
+
+        if (targetNote) {
+            if (!state.twoHandManipulating) {
+                state.twoHandManipulating = true;
+                state.twoHandStartSep = Math.max(8.0, handSep);
+                state.twoHandTargetNote = targetNote;
+            } else if (state.twoHandTargetNote === targetNote) {
+                var scaleRatio = Math.max(0.12, Math.min(2.8, handSep / state.twoHandStartSep));
+                if (scaleRatio <= 0.16) {
+                    // Crush-to-delete gesture triggered
+                    state.notes = state.notes.filter(function(x) { return x !== targetNote; });
+                    if (targetNote.obj) targetNote.obj.destroy();
+                    if (targetNote.labelObj) targetNote.labelObj.destroy();
+                    state.twoHandManipulating = false;
+                    state.twoHandTargetNote = null;
+                    if (state.voiceHud && state.voiceHudLabel) {
+                        setTextContent(state.voiceHudLabel, "[ ✦ NOTE CRUSHED // REMOVED VIA GESTURE ]", 4.2);
+                        applyMaterialStyle(state.voiceHud, null, new vec4(1.0, 0.3, 0.2, 0.95));
+                        state.voiceHudTimer = 2.5;
+                    }
+                    triggerAudioRipple(midPoint);
+                    return;
+                }
+                targetNote.curScale = targetNote.baseScale.uniformScale(scaleRatio);
+                targetNote.curPos = vec3.lerp(targetNote.curPos, midPoint, dt * 6.0);
+            }
+        } else {
+            state.twoHandManipulating = false;
+            checkTwoHandFramingGesture();
+        }
+    } else {
+        state.twoHandManipulating = false;
+        state.twoHandTargetNote = null;
+    }
 }
 
 function checkTwoHandFramingGesture() {
@@ -1234,6 +1336,18 @@ SurfaceTrackingManager.prototype.initWorldQuery = function() {
             print("[INFINITY SURFACE] WorldQueryModule detected on Spectacles hardware.");
         } catch(e) {}
     }
+    // Bind global physical desk detection hook from SurfaceAnchorEngine
+    var self = this;
+    global.infinityOnDeskDetected = function(surfaceY, normal) {
+        self.calibratedHeight = surfaceY;
+        self.updateSurfacePositions();
+        if (self.kernel.state.voiceHud && self.kernel.state.voiceHudLabel) {
+            setTextContent(self.kernel.state.voiceHudLabel, "[ ◉ PHYSICAL DESK LOCKED: " + surfaceY.toFixed(1) + " CM ]", 4.2);
+            applyMaterialStyle(self.kernel.state.voiceHud, null, new vec4(0.0, 0.85, 0.5, 0.95));
+            self.kernel.state.voiceHudTimer = 3.0;
+        }
+        print("[INFINITY SURFACE] Locked to real room mesh tabletop at Y=" + surfaceY.toFixed(1));
+    };
 };
 
 SurfaceTrackingManager.prototype.adjustDeskElevation = function(deltaY) {
@@ -2020,6 +2134,9 @@ script.createEvent('UpdateEvent').bind(function() {
     var dt = getDeltaTime();
     state.time += dt;
 
+    // 0. Update Native SIK Gestures & Two-Hand Continuous Manipulation
+    updateNativeSIKGestures(dt);
+
     if (state.pulseEnergy > 0.01) {
         state.pulseEnergy = Math.max(0.0, state.pulseEnergy - dt * 2.2);
     }
@@ -2252,6 +2369,15 @@ function triggerAIAssistant() {
 // ------------------------------------------------------------------------------
 // Voice Command Simulator & SIK Audio Status HUD
 // ------------------------------------------------------------------------------
+// Interim Voice Feedback Hook for AsrModule streaming
+global.infinityVoiceInterimUpdate = function(streamText) {
+    if (state.voiceHud && state.voiceHudLabel) {
+        setTextContent(state.voiceHudLabel, streamText, 3.8);
+        applyMaterialStyle(state.voiceHud, null, new vec4(0.15, 0.35, 0.75, 0.95));
+        state.voiceHudTimer = 1.6;
+    }
+};
+
 function handleVoiceCommand(cmd) {
     if (!cmd) return;
     var c = cmd.toLowerCase().trim();
@@ -2265,18 +2391,37 @@ function handleVoiceCommand(cmd) {
 
     if (c.indexOf("expand") !== -1 || c.indexOf("ai") !== -1 || c.indexOf("synthesize") !== -1) {
         triggerAIAssistant();
-    } else if (c.indexOf("think") !== -1) {
+    } else if (c.indexOf("think") !== -1 || c.indexOf("architecture") !== -1) {
         enterFocusMode("Think");
-    } else if (c.indexOf("create") !== -1) {
+    } else if (c.indexOf("create") !== -1 || c.indexOf("code") !== -1) {
         enterFocusMode("Create");
-    } else if (c.indexOf("learn") !== -1) {
+    } else if (c.indexOf("learn") !== -1 || c.indexOf("calculus") !== -1) {
         enterFocusMode("Learn");
-    } else if (c.indexOf("store") !== -1) {
+    } else if (c.indexOf("store") !== -1 || c.indexOf("neuroscience") !== -1) {
         enterFocusMode("Store");
     } else if (c.indexOf("explore") !== -1) {
         enterFocusMode("Explore");
     } else if (c.indexOf("galaxy") !== -1 || c.indexOf("overview") !== -1 || c.indexOf("zoom out") !== -1) {
         returnToGalaxy();
+    } else if (c.indexOf("desk up") !== -1 || c.indexOf("raise desk") !== -1) {
+        if (state.surfaceManager) state.surfaceManager.adjustDeskElevation(5.0);
+    } else if (c.indexOf("desk down") !== -1 || c.indexOf("lower desk") !== -1) {
+        if (state.surfaceManager) state.surfaceManager.adjustDeskElevation(-5.0);
+    } else if (c.indexOf("calibrate") !== -1 || c.indexOf("table") !== -1) {
+        if (state.surfaceManager) state.surfaceManager.snapToPhysicalSurface();
+    } else if (c.indexOf("clear notes") !== -1 || c.indexOf("reset notes") !== -1 || c.indexOf("delete notes") !== -1) {
+        for (var i = state.notes.length - 1; i >= 0; i--) {
+            var n = state.notes[i];
+            if (n.id && n.id.indexOf("Voice") !== -1) {
+                if (n.obj) n.obj.destroy();
+                if (n.labelObj) n.labelObj.destroy();
+                state.notes.splice(i, 1);
+            }
+        }
+        if (state.voiceHud && state.voiceHudLabel) {
+            setTextContent(state.voiceHudLabel, "[ ✦ NOTES CLEARED VIA VOICE ]", 4.2);
+            state.voiceHudTimer = 2.5;
+        }
     } else if (c.indexOf("replay") !== -1 || c.indexOf("tutorial") !== -1) {
         if (state.ftueOnboarding) {
             state.ftueOnboarding.reset();

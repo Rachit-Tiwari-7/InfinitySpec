@@ -159,3 +159,54 @@ def test_feature_g_desktop_companion_sync():
     assert "DesktopCompanionSyncModule" in code
     assert "injectDesktopSnippet" in code
     assert "infinityInjectDesktopSnippet" in code
+
+
+def test_feature_h_world_query_and_surface_anchor_engine():
+    """Verify WorldQuery Module assets and SurfaceAnchorEngine room mesh raycast logic."""
+    modules_dir = os.path.join(TT_ASSETS, "Modules")
+    assert os.path.exists(modules_dir), "Missing tt/Assets/Modules directory"
+    assert os.path.exists(os.path.join(modules_dir, "World Query Module.worldQueryModule")), "Missing World Query module asset"
+
+    anchor_ts = os.path.join(TT_ASSETS, "SurfaceAnchorEngine.ts")
+    assert os.path.exists(anchor_ts), "Missing SurfaceAnchorEngine.ts"
+    with open(anchor_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "SurfaceAnchorEngine" in code
+    assert "HitTestSessionOptions" in code
+    assert "classifySurface" in code
+    assert "probeForDesk" in code
+    assert "infinityOnDeskDetected" in code
+
+
+def test_feature_i_asr_voice_command_controller():
+    """Verify native ASR Module assets and VoiceCommandController transcription pipeline."""
+    modules_dir = os.path.join(TT_ASSETS, "Modules")
+    assert os.path.exists(os.path.join(modules_dir, "ASR Module.asrModule")), "Missing ASR Module asset"
+
+    voice_ts = os.path.join(TT_ASSETS, "VoiceCommandController.ts")
+    assert os.path.exists(voice_ts), "Missing VoiceCommandController.ts"
+    with open(voice_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "VoiceCommandController" in code
+    assert "AsrTranscriptionOptions" in code
+    assert "infinityVoiceInterimUpdate" in code
+    assert "infinityDictateVoiceNote" in code
+    assert "infinityVoiceCommand" in code
+
+
+def test_feature_j_sik_pinch_hysteresis_and_crush_gesture():
+    """Verify SIK pinch hysteresis (3.0cm down, 4.5cm up), hand span scaling and crush gesture."""
+    kernel_js = os.path.join(TT_ASSETS, "InfinityOSKernel.js")
+    with open(kernel_js, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "PINCH_DOWN_DIST = 3.0" in code
+    assert "PINCH_UP_DIST = 4.5" in code
+    assert "REFERENCE_HAND_SPAN = 18.0" in code
+    assert "measureHandSpan" in code
+    assert "updateNativeSIKGestures" in code
+    assert "infinityOnDeskDetected" in code
+    assert "infinityVoiceInterimUpdate" in code
+    assert "crush" in code.lower() or "crushed" in code.lower()
