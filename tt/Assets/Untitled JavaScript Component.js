@@ -20,6 +20,61 @@
 
 print("[INFINITY] Booting Spatial Study Copilot & Ambient Knowledge Canvas...");
 
+
+// ------------------------------------------------------------------------------
+// Native SIK Hand Tracking & Dual-Pinch Framing Engine (Specs Samples Architecture)
+// ------------------------------------------------------------------------------
+var nativeHandTrackingInitialized = false;
+function initNativeSIKHandTracking() {
+    if (nativeHandTrackingInitialized) return;
+    try {
+        if (typeof global.SIK !== "undefined" && global.SIK && global.SIK.HandInputData) {
+            state.rightHand = global.SIK.HandInputData.getHand("right");
+            state.leftHand = global.SIK.HandInputData.getHand("left");
+            if (state.rightHand) {
+                state.rightHand.onPinchDown.add(function() {
+                    state.rightPinching = true;
+                    checkTwoHandFramingGesture();
+                });
+                state.rightHand.onPinchUp.add(function() {
+                    state.rightPinching = false;
+                });
+            }
+            if (state.leftHand) {
+                state.leftHand.onPinchDown.add(function() {
+                    state.leftPinching = true;
+                    checkTwoHandFramingGesture();
+                });
+                state.leftHand.onPinchUp.add(function() {
+                    state.leftPinching = false;
+                });
+            }
+            nativeHandTrackingInitialized = true;
+            print("[INFINITY SIK] Native 6DoF HandInputData connected successfully.");
+        }
+    } catch(e) {}
+}
+
+function checkTwoHandFramingGesture() {
+    if (state.rightHand && state.leftHand && state.rightHand.isPinching && state.leftHand.isPinching &&
+        state.rightHand.isPinching() && state.leftHand.isPinching()) {
+        try {
+            var rPos = state.rightHand.thumbTip.position;
+            var lPos = state.leftHand.thumbTip.position;
+            var center = rPos.add(lPos).uniformScale(0.5);
+            if (state.textbookMarker) {
+                var deskY = state.surfaceManager ? state.surfaceManager.calibratedHeight + 0.8 : -17.2;
+                state.textbookMarker.getTransform().setWorldPosition(new vec3(center.x, deskY, center.z));
+            }
+            if (state.voiceHud && state.voiceHudLabel) {
+                setTextContent(state.voiceHudLabel, "[ ✦ DUAL-PINCH: TEXTBOOK FRAMED IN ROOM ]", 4.0);
+                state.voiceHudTimer = 2.5;
+            }
+            triggerAudioRipple(center);
+        } catch(e) {}
+    }
+}
+
 // ------------------------------------------------------------------------------
 // Native Spectacles Interaction Kit (SIK) & Audio Feedback Bridges
 // ------------------------------------------------------------------------------
@@ -1741,6 +1796,7 @@ script.createEvent('OnStartEvent').bind(function() {
     enterFocusMode("Think");
     print("[INFINITY OS] Cosmic Spatial Desktop online. Ready for Spectacles SIK Gaze & Pinch!");
     initAudioFeedbackSystem();
+    initNativeSIKHandTracking();
 });
 
 // ------------------------------------------------------------------------------
