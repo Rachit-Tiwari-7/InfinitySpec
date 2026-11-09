@@ -1,0 +1,66 @@
+- !<AssetImportMetadata/5521a084-25e1-45bc-98be-88e2cb1017ef>
+  ImportedAssetIds:
+    JavaScriptAsset: !<reference> a87d12f4-7128-4ce6-91d1-678239e248b1
+  ImporterName: JavaScriptAssetImporter
+  PrimaryAsset: !<reference> a87d12f4-7128-4ce6-91d1-678239e248b1
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    JavaScriptAsset: !<own> 7b9319e2-3481-49cf-8ae1-7729ad8b29f0
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<ScriptAssetData/7b9319e2-3481-49cf-8ae1-7729ad8b29f0>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: "INFINITY OS Cosmic Spatial Whiteboard Kernel"
+  VersionMajor: 1
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: a87d12f4-7128-4ce6-91d1-678239e248b2
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    texCreate: false
+    texExplore: false
+    texLearn: false
+    texStore: false
+    texThink: false
+    texWhiteboard: false
+    boxMesh: false
+    sphereMesh: false
+    torusMesh: false
+    pbrMaterial: false
+    textMaterial: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    - Kernel
+    - Whiteboard
+    - Spatial
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - texThink: !<reference.Texture> 67aa8b41-b9cd-42c5-894d-f7026a4fd8be
+      texCreate: !<reference.Texture> 6382df47-7d31-45e6-8f6d-23384cc5d9b4
+      texLearn: !<reference.Texture> 9925edb2-b0c0-4f85-b321-4383cc966b8c
+      texStore: !<reference.Texture> 59cc1d36-0377-4c71-b9cf-d57046a01ea9
+      texExplore: !<reference.Texture> 4d9fe003-fe8f-4eb6-8125-2069c33b5bdc
+      texWhiteboard: !<reference.Texture> ff158ab2-7e11-4889-82e2-726288147307
+      boxMesh: !<reference.Mesh> 3b184a84-7be0-4e71-9ffe-a825f3865dc7
+      sphereMesh: !<reference.Mesh> 192a5bb2-30e3-4279-ad7a-10ae1f4bbdad
+      torusMesh: !<reference.Mesh> 7ff853ab-720a-477f-9181-e51172e72a59
+      pbrMaterial: !<reference.Material> 67635c29-0e90-48f2-92bb-bd314d6662ca
+      textMaterial: !<reference.Material> 30caec55-b605-4bb4-857d-4c70cb1f3f81
+  ScriptTypes:
+    -
+      {}

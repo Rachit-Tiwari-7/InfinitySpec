@@ -1,0 +1,76 @@
+# ==============================================================================
+# Snap Spectacles Project Git Ignore
+# ==============================================================================
+
+# OS & Temporary
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# Python & Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+ENV/
+env/
+
+# Lens Studio Cache & User Preferences
+tt/Cache/
+tt/PluginsUserPreferences/
+tt/Workspaces/
+tt/*.lock
+t1/
+
+# Legacy / Non-Spectacles Subsystems & Competition Files
+web/
+vr/
+vision/
+voice/
+display/
+input/
+app/
+agent/
+ai/
+core/
+archive/
+scratch/
+serve.py
+README_QUEST.md
+requirements.txt
+INFINITY_*.md
+
+# Non-Spectacles Tests (Preserving only Spectacles Lens Studio test suite)
+tests/test_ar_workspace_unified.py
+tests/test_audio_and_foveation.py
+tests/test_audit_remediation.py
+tests/test_command_parser.py
+tests/test_critical_ux_recovery.py
+tests/test_extended_spatial_layout.py
+tests/test_final_vr_hardening.py
+tests/test_gesture_and_desktop_replacement.py
+tests/test_gesture_engine.py
+tests/test_grand_prize_execution.py
+tests/test_grand_prize_polish.py
+tests/test_interactive_checklist.py
+tests/test_in_vr_editor_integration.py
+tests/test_mouse_injector.py
+tests/test_multimodal_dispatcher.py
+tests/test_optimizations.py
+tests/test_quest_webxr_endpoint.py
+tests/test_raycast.py
+tests/test_rk4_predictor.py
+tests/test_security_and_interaction_hardening.py
+tests/test_spatial_drag_drop_text.py
+tests/test_spatial_drawing_advanced.py
+tests/test_spatial_workstation.py
+tests/test_spline_interpolator.py
+tests/test_throw_assist.py
+tests/test_virtual_keyboard.py
+tests/test_vr_pipeline.py
+tests/test_workspace_export_import.py
