@@ -1749,6 +1749,26 @@ script.createEvent('OnStartEvent').bind(function() {
         print("[INFINITY OS] Spatial Camera linked successfully");
     }
 
+    // Network Connectivity Resilience & Toast HUD (Post-It Pattern)
+    state.internetAvailable = true;
+    if (typeof global.deviceInfoSystem !== "undefined" && global.deviceInfoSystem) {
+        state.internetAvailable = global.deviceInfoSystem.isInternetAvailable();
+        global.deviceInfoSystem.onInternetStatusChanged.add(function(args) {
+            state.internetAvailable = args.isInternetAvailable;
+            if (state.voiceHud && state.voiceHudLabel) {
+                if (args.isInternetAvailable) {
+                    setTextContent(state.voiceHudLabel, "[ ✦ INFINITY // RECONNECTED • ✦ AI READY ]", 4.0);
+                    applyMaterialStyle(state.voiceHud, null, new vec4(0.0, 0.85, 0.45, 0.95));
+                } else {
+                    setTextContent(state.voiceHudLabel, "[ ⚠️ INFINITY // OFFLINE - LOCAL MODE ACTIVE ]", 4.0);
+                    applyMaterialStyle(state.voiceHud, null, new vec4(0.95, 0.25, 0.15, 0.95));
+                }
+                state.voiceHudTimer = 3.5;
+            }
+            print("[INFINITY OS] Internet connectivity changed: " + (args.isInternetAvailable ? "ONLINE" : "OFFLINE"));
+        });
+    }
+
     // 2. Virtual Desk Surface Stand-In Plate (90x1.2x54cm) with Corner Alignments
     state.deskSurface = getOrCreateObject("Virtual_Desk_Surface", script.boxMesh, script.pbrMaterial);
     state.deskSurface.getTransform().setWorldPosition(new vec3(0.0, -18.0, -70.0));
@@ -2503,6 +2523,22 @@ function handleVoiceCommand(cmd) {
 
     if (c.indexOf("expand") !== -1 || c.indexOf("ai") !== -1 || c.indexOf("synthesize") !== -1) {
         triggerAIAssistant();
+    } else if (c.indexOf("dock assistant") !== -1 || c.indexOf("wrist assistant") !== -1 || c.indexOf("dock to wrist") !== -1) {
+        if (typeof global.wristCompanionDock === "function") {
+            global.wristCompanionDock();
+            if (state.voiceHud && state.voiceHudLabel) {
+                setTextContent(state.voiceHudLabel, "[ ✦ AI ASSISTANT DOCKED TO WRIST ]", 4.0);
+                state.voiceHudTimer = 2.0;
+            }
+        }
+    } else if (c.indexOf("undock assistant") !== -1 || c.indexOf("release assistant") !== -1 || c.indexOf("world assistant") !== -1) {
+        if (typeof global.wristCompanionUndock === "function") {
+            global.wristCompanionUndock(new vec3(-2.0, -8.5, -67.5));
+            if (state.voiceHud && state.voiceHudLabel) {
+                setTextContent(state.voiceHudLabel, "[ ✦ AI ASSISTANT UNDOCKED TO STUDY DESK ]", 4.0);
+                state.voiceHudTimer = 2.0;
+            }
+        }
     } else if (c.indexOf("think") !== -1 || c.indexOf("architecture") !== -1) {
         enterFocusMode("Think");
     } else if (c.indexOf("create") !== -1 || c.indexOf("code") !== -1) {
@@ -2838,6 +2874,9 @@ function handleTapOrPinch(screenPos) {
         var aiPos = aiCore.getTransform().getWorldPosition();
         var aiHit = raycast3D(screenPos, aiPos, 5.5);
         if (aiHit.hit) {
+            if (typeof global.wristCompanionToggle === "function") {
+                global.wristCompanionToggle(new vec3(-2.0, -8.5, -67.5));
+            }
             triggerAIAssistant();
             return;
         }

@@ -31,6 +31,7 @@ const HORIZONTAL_DOT = 0.85; // Normal within ~32 deg of world up
 const VERTICAL_DOT = 0.30;   // Normal within ~17 deg of horizon
 const TABLE_MIN_HEIGHT = 30; // 30cm above floor
 const TABLE_MAX_HEIGHT = 130;// 130cm above floor
+export const EPSILON = 0.01;
 
 @component
 export class SurfaceAnchorEngine extends BaseScriptComponent {
@@ -87,6 +88,10 @@ export class SurfaceAnchorEngine extends BaseScriptComponent {
         this.calibrateFloor();
         // Probe forward-down for physical study desk
         this.probeForDesk();
+
+        // Export global surface orientation and raycasting helpers (Post-It pattern)
+        (globalThis as any).surfaceComputeOrientation = this.computeSurfaceOrientation.bind(this);
+        (globalThis as any).surfaceRaycastFromInteractor = this.raycastFromInteractor.bind(this);
     }
 
     private resolveModule(): any {
@@ -193,5 +198,38 @@ export class SurfaceAnchorEngine extends BaseScriptComponent {
 
     public getDeskHeight(): number {
         return this.detectedDeskHeight !== null ? this.detectedDeskHeight : this.fallbackDeskHeight;
+    }
+
+    /**
+     * Derives exact surface orientation matching Post-It cross-product math.
+     * Horizontal surface -> vec3.forward() look direction.
+     * Vertical / slanted surface -> normal x vec3.up() tangent look direction.
+     */
+    public computeSurfaceOrientation(hitNormal: vec3): quat {
+        const n = hitNormal.normalize();
+        const isHorizontal = (1.0 - Math.abs(n.dot(vec3.up()))) < EPSILON;
+        let lookDirection: vec3;
+        if (isHorizontal) {
+            lookDirection = vec3.forward();
+        } else {
+            lookDirection = n.cross(vec3.up());
+        }
+        return quat.lookAt(lookDirection, n);
+    }
+
+    /**
+     * SIK targeting interactor raycast probe (Post-It pattern).
+     */
+    public raycastFromInteractor(interactor: any, cb: (pos: vec3 | null, norm: vec3 | null) => void): boolean {
+        if (!interactor) return false;
+        if (typeof interactor.isActive === "function" && !interactor.isActive()) {
+            return false;
+        }
+        const start = interactor.startPoint ? interactor.startPoint : (interactor.getStartPoint ? interactor.getStartPoint() : null);
+        const end = interactor.endPoint ? interactor.endPoint : (interactor.getEndPoint ? interactor.getEndPoint() : null);
+        if (!start || !end) return false;
+
+        this.enqueueProbe(start, end, cb);
+        return true;
     }
 }

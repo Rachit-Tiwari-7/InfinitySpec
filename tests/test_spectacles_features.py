@@ -412,3 +412,79 @@ def test_feature_u_mathematical_fibonacci_and_golden_angle_correctness():
     assert ease_out(0.0) == 0.0
     assert ease_out(0.5) == 0.75
     assert ease_out(1.0) == 1.0
+
+
+def test_feature_v_wrist_companion_dock_architecture():
+    """Verify WristCompanionDock hand-anchored companion micro-orb (from Post-It)."""
+    dock_ts = os.path.join(TT_ASSETS, "WristCompanionDock.ts")
+    assert os.path.exists(dock_ts), "Missing WristCompanionDock.ts"
+    with open(dock_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "WristCompanionDock" in code
+    assert "pinkyKnuckle" in code
+    assert "isFacingCamera" in code
+    assert "minScale" in code
+    assert "fullScale" in code
+    assert "undockToWorld" in code
+    assert "dockToWrist" in code
+    assert "isDocked" in code
+    assert "wristCompanionDock" in code
+    assert "wristCompanionUndock" in code
+
+
+def test_feature_w_surface_orientation_normal_tangent_math():
+    """Verify SurfaceAnchorEngine normal vector cross-product tangent alignment (from Post-It)."""
+    anchor_ts = os.path.join(TT_ASSETS, "SurfaceAnchorEngine.ts")
+    assert os.path.exists(anchor_ts), "Missing SurfaceAnchorEngine.ts"
+    with open(anchor_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "computeSurfaceOrientation" in code
+    assert "hitNormal" in code
+    assert "quat.lookAt" in code
+    assert "vec3.up()" in code
+    assert "EPSILON = 0.01" in code
+    assert "raycastFromInteractor" in code
+    assert "surfaceComputeOrientation" in code
+    assert "surfaceRaycastFromInteractor" in code
+
+
+def test_feature_x_internet_status_and_wrist_companion_kernel_integration():
+    """Verify kernel internet resilience HUD and wrist companion voice/tap commands."""
+    kernel_js = os.path.join(TT_ASSETS, "InfinityOSKernel.js")
+    with open(kernel_js, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "deviceInfoSystem.onInternetStatusChanged" in code
+    assert "OFFLINE - LOCAL MODE ACTIVE" in code
+    assert "dock assistant" in code
+    assert "wrist assistant" in code
+    assert "undock assistant" in code
+    assert "wristCompanionToggle" in code
+
+
+def test_feature_y_surface_normal_mathematical_invariants():
+    """Verify mathematical invariants of the surface normal cross-product tangent orientation."""
+    # Horizontal test: normal = [0, 1, 0]
+    ny = [0.0, 1.0, 0.0]
+    dot_up = abs(ny[1])
+    is_horizontal = (1.0 - dot_up) < 0.01
+    assert is_horizontal, "Expected [0, 1, 0] to be classified as horizontal"
+
+    # Vertical wall test: normal = [0, 0, 1] (Z-wall)
+    # n x up = [0, 0, 1] x [0, 1, 0] = [-1, 0, 0]
+    n = [0.0, 0.0, 1.0]
+    up = [0.0, 1.0, 0.0]
+    cross = [
+        n[1] * up[2] - n[2] * up[1],
+        n[2] * up[0] - n[0] * up[2],
+        n[0] * up[1] - n[1] * up[0],
+    ]
+    assert cross == [-1.0, 0.0, 0.0], f"Unexpected cross product: {cross}"
+
+    # Verify orthogonality of tangent to both normal and world-up
+    dot_n = cross[0] * n[0] + cross[1] * n[1] + cross[2] * n[2]
+    dot_u = cross[0] * up[0] + cross[1] * up[1] + cross[2] * up[2]
+    assert abs(dot_n) < 1e-6, "Tangent must be strictly orthogonal to surface normal"
+    assert abs(dot_u) < 1e-6, "Tangent must be strictly orthogonal to world-up"
