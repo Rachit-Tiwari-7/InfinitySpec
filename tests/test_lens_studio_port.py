@@ -298,3 +298,71 @@ def test_interaction_drag_tap_discrimination():
     assert "lastDragEndTime" in code
     assert "hasMoved" in code
 
+
+def test_surface_tracking_manager():
+    """Verify dynamic surface tracking and physical table snapping fallback."""
+    js_path = os.path.join(TT_DIR, "Assets", "Untitled JavaScript Component.js")
+    with open(js_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "SurfaceTrackingManager" in code
+    assert "WorldQueryModule" in code
+    assert "calibratedHeight" in code
+    assert "adjustDeskElevation" in code
+    assert "snapToPhysicalSurface" in code
+    assert "updateContactShadows" in code
+    assert "Contact_Shadow_" in code
+
+
+def test_quantum_curriculum_curation():
+    """Verify pre-populated Quantum Computing 101 curriculum eliminates blank canvas friction."""
+    js_path = os.path.join(TT_DIR, "Assets", "Untitled JavaScript Component.js")
+    with open(js_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "QUBIT SUPERPOSITION" in code
+    assert "QUANTUM ENTANGLEMENT" in code
+    assert "DECOHERENCE NOISE" in code
+    assert "SHOR'S ALGORITHM" in code
+    assert "Bloch sphere" in code
+    assert "Bell state" in code
+
+
+def test_visual_targeting_reticle_and_desk_controls():
+    """Verify 3D targeting reticle and physical grounding calibration controls."""
+    js_path = os.path.join(TT_DIR, "Assets", "Untitled JavaScript Component.js")
+    with open(js_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "Visual_Pointer_Reticle" in code
+    assert "Visual_Pointer_Dot" in code
+    assert "Button_Desk_Up" in code
+    assert "Button_Desk_Down" in code
+    assert "Button_Desk_Snap" in code
+    assert "Button_Voice_Note" in code
+
+
+def test_in_lens_export_modal_and_ai_summarizer():
+    """Verify volumetric in-lens export modal and one-tap graph summarizer."""
+    js_path = os.path.join(TT_DIR, "Assets", "Untitled JavaScript Component.js")
+    with open(js_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "Export_Modal_Board" in code
+    assert "Button_Modal_Sync" in code
+    assert "Button_Modal_Close" in code
+    assert "Button_Summarize_Graph" in code
+    assert "summarizeKnowledgeGraph" in code
+    assert "infinityDictateVoiceNote" in code
+
+
+def test_waveguide_optical_contrast_parameters():
+    """Verify anti-washout backing plate opacity for Spectacles optical waveguides."""
+    js_path = os.path.join(TT_DIR, "Assets", "Untitled JavaScript Component.js")
+    with open(js_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    # Note backing slate uses 0.94 opacity
+    assert "0.94" in code
+    # Repositioned framing
+    assert "Spatial Study Copilot & Ambient Knowledge Canvas" in code
