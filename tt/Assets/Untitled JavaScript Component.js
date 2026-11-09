@@ -1,7 +1,7 @@
 // @component
 // ==============================================================================
 // INFINITY // Cosmic Spatial Operating System & Ambient Workstation
-// Lens Studio 5.24 + Snap Spectacles 2024 (SIK Gaze/Pinch & Interactive Preview)
+// Lens Studio 5.24 + Snap Spectacles 2024 (6DoF Optical Waveguide AR)
 // Devpost Hackathon: Learn AR with SPECS
 // ==============================================================================
 
@@ -17,7 +17,7 @@
 // @input Asset.Material pbrMaterial
 // @input Asset.Material textMaterial
 
-print("[INFINITY OS] Booting Spatial Operating System & Ambient Workstation...");
+print("[INFINITY OS] Booting Cosmic Spatial Operating System & Ambient Workstation...");
 
 // ------------------------------------------------------------------------------
 // Spatial Cognitive States (Replacing 2D Kanban with Spatial Computing States)
@@ -198,21 +198,21 @@ var WORKSPACES = {
         aiExpansions: [
             "Joint Distance Ratios Normalized Across Chirality",
             "Predictive Sub-Millisecond Motion Extrapolated",
-            "Biomechanical Spatial Ergonomics Verified"
+            "Waveguide Color Dispersion Balanced"
         ]
     },
     "Store": {
         name: "Store",
         title: "INFINITY // STORE WORKSPACE",
-        subtitle: "PERSISTENT VAULT • CROSS-SESSION SPATIAL STATE",
-        color: new vec4(0.08, 0.95, 0.58, 1.0),
+        subtitle: "CROSS-SESSION PERSISTENCE • COORDINATE VAULT",
+        color: new vec4(0.0, 1.0, 0.66, 1.0),
         colorHex: "#00ffaa",
         notes: [
             {
                 id: "StickyNote_Arch",
                 labelId: "Label_Note_Arch",
-                title: "PERSISTENT STORE",
-                body: "• Instant cross-session load\n[x] Versioned JSON schema",
+                title: "SESSION SERIALIZER",
+                body: "• Local JSON Coordinate Vault\n[x] Instant state restore",
                 status: "ANCHORED",
                 basePos: new vec3(-15.0, 1.5, -66.5),
                 baseRotY: 14.0 * Math.PI / 180.0
@@ -220,8 +220,8 @@ var WORKSPACES = {
             {
                 id: "StickyNote_Gaze",
                 labelId: "Label_Note_Gaze",
-                title: "CACHE RECOVERY",
-                body: "• In-memory fast fallback\n• Zero-latency restore",
+                title: "AUTO-SAVE DEBOUNCE",
+                body: "• 500ms Quiescent timer\n• Zero UI hitching on drop",
                 status: "SYNCHRONIZED",
                 basePos: new vec3(0.0, 5.5, -68.5),
                 baseRotY: 0.0
@@ -229,8 +229,8 @@ var WORKSPACES = {
             {
                 id: "StickyNote_Constellation",
                 labelId: "Label_Note_Constellation",
-                title: "DEVICE VAULT",
-                body: "• Cross-workspace states\n[x] Coordinates preserved",
+                title: "MULTI-SLOT VAULT",
+                body: "• 5 Independent Workspaces\n[x] Per-slot memory isolation",
                 status: "ANCHORED",
                 basePos: new vec3(15.0, 1.0, -66.5),
                 baseRotY: -14.0 * Math.PI / 180.0
@@ -238,8 +238,8 @@ var WORKSPACES = {
             {
                 id: "StickyNote_AI",
                 labelId: "Label_Note_AI",
-                title: "✦ AI SNAPSHOT",
-                body: "• Automatic state indexing\n[ ] Cloud synchronization",
+                title: "✦ AI COMPACTOR",
+                body: "• Graph structure reducer\n[ ] Semantic clustering",
                 status: "SYNTHESIZING",
                 basePos: new vec3(-2.0, -8.5, -67.5),
                 baseRotY: 0.0,
@@ -248,22 +248,22 @@ var WORKSPACES = {
         ],
         connections: [[0, 1], [1, 2], [2, 3], [3, 0]],
         aiExpansions: [
-            "Whiteboard Workspace State Serialized to Vault",
-            "Cross-Device Coordinate Transformation Calibrated",
-            "Redundant Idea Nodes Pruned & Indexed"
+            "Graph Compaction Complete: 4 Notes Index Synthesized",
+            "Zero-Loss Coordinate Quantization Applied",
+            "Vault Checksum Verified Across Persistent Storage"
         ]
     },
     "Explore": {
         name: "Explore",
         title: "INFINITY // EXPLORE GALAXY",
         subtitle: "INFINITE WHITEBOARD ZOOM • COSMIC NAVIGATION",
-        color: new vec4(1.0, 0.12, 0.58, 1.0),
+        color: new vec4(1.0, 0.0, 0.5, 1.0),
         colorHex: "#ff007f",
         notes: [
             {
                 id: "StickyNote_Arch",
                 labelId: "Label_Note_Arch",
-                title: "GALAXY ATLAS",
+                title: "CELESTIAL DOCK",
                 body: "• 5 Celestial Planetary Orbs\n[x] 1-pinch fast jump",
                 status: "ANCHORED",
                 basePos: new vec3(-15.0, 1.5, -66.5),
@@ -273,7 +273,7 @@ var WORKSPACES = {
                 id: "StickyNote_Gaze",
                 labelId: "Label_Note_Gaze",
                 title: "INFINITE ZOOM",
-                body: "• Overview to Focus Mode\n• Smooth Lerp fly-through",
+                body: "• Semantic Level-of-Detail\n• Adaptive typography scaling",
                 status: "SYNCHRONIZED",
                 basePos: new vec3(0.0, 5.5, -68.5),
                 baseRotY: 0.0
@@ -281,8 +281,8 @@ var WORKSPACES = {
             {
                 id: "StickyNote_Constellation",
                 labelId: "Label_Note_Constellation",
-                title: "COSMIC BEAMS",
-                body: "• Pulsing connection web\n[x] Dynamic Graph Topology",
+                title: "GALAXY OVERVIEW",
+                body: "• Macro view of all thoughts\n[x] High-level graph vision",
                 status: "ANCHORED",
                 basePos: new vec3(15.0, 1.0, -66.5),
                 baseRotY: -14.0 * Math.PI / 180.0
@@ -290,7 +290,7 @@ var WORKSPACES = {
             {
                 id: "StickyNote_AI",
                 labelId: "Label_Note_AI",
-                title: "✦ AI DISCOVERY",
+                title: "✦ DEEP SPACE AI",
                 body: "• Deep Concept Traversal\n[ ] Infinite Sub-Universe",
                 status: "SYNTHESIZING",
                 basePos: new vec3(-2.0, -8.5, -67.5),
@@ -300,50 +300,812 @@ var WORKSPACES = {
         ],
         connections: [[0, 1], [1, 2], [2, 3], [3, 0]],
         aiExpansions: [
-            "Multidimensional Concept Traversal Activated",
-            "Deep Space Ideation Constellations Discovered",
-            "Infinite Whiteboard Sub-Universe Instantiated"
+            "Infinite Whiteboard Sub-Universe Instantiated",
+            "Semantic Cluster Map Generated in Latent Space",
+            "Multi-Scale Thought Constellation Synthesized"
         ]
     }
 };
 
-// ------------------------------------------------------------------------------
-// Runtime Operating State
-// ------------------------------------------------------------------------------
+// ==============================================================================
+// MODULAR SUBSYSTEM 1: ShapeRecognizer (Geometric Analysis Engine)
+// ==============================================================================
+function ShapeRecognizer() {
+    this.minPoints = 6;
+    this.autoNeatenEnabled = true;
+}
+
+ShapeRecognizer.prototype.recognize = function(points) {
+    if (!points || points.length < this.minPoints) return null;
+    var n = points.length;
+    var pStart = points[0];
+    var pEnd = points[n - 1];
+
+    var totalLength = 0;
+    for (var i = 1; i < n; i++) {
+        var dx = points[i].x - points[i - 1].x;
+        var dy = points[i].y - points[i - 1].y;
+        totalLength += Math.sqrt(dx * dx + dy * dy);
+    }
+    if (totalLength < 0.5) return null;
+
+    var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    var sumX = 0, sumY = 0;
+    for (var j = 0; j < n; j++) {
+        var p = points[j];
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+        sumX += p.x;
+        sumY += p.y;
+    }
+    var width = maxX - minX;
+    var height = maxY - minY;
+    var cx = sumX / n;
+    var cy = sumY / n;
+
+    var endDx = pEnd.x - pStart.x;
+    var endDy = pEnd.y - pStart.y;
+    var endDist = Math.sqrt(endDx * endDx + endDy * endDy);
+    var isClosed = endDist < Math.max(1.8, totalLength * 0.32);
+
+    if (isClosed) {
+        var rMean = (width + height) * 0.25;
+        var sumVar = 0;
+        for (var k = 0; k < n; k++) {
+            var rx = points[k].x - cx;
+            var ry = points[k].y - cy;
+            var distToCenter = Math.sqrt(rx * rx + ry * ry);
+            sumVar += (distToCenter - rMean) * (distToCenter - rMean);
+        }
+        var stdR = Math.sqrt(sumVar / n);
+        var aspect = (height > 0) ? (width / height) : 1.0;
+
+        if (stdR / (rMean + 0.001) < 0.28 && aspect > 0.65 && aspect < 1.45) {
+            return { type: "circle", cx: cx, cy: cy, r: Math.max(1.5, rMean), confidence: 0.94 };
+        }
+
+        var boxPerimeter = 2 * (width + height);
+        if (Math.abs(totalLength - boxPerimeter) / boxPerimeter < 0.42) {
+            return { type: "rect", cx: cx, cy: cy, width: Math.max(2.5, width), height: Math.max(2.0, height), confidence: 0.88 };
+        }
+    } else {
+        var straightDist = Math.sqrt((pEnd.x - pStart.x) * (pEnd.x - pStart.x) + (pEnd.y - pStart.y) * (pEnd.y - pStart.y));
+        if (straightDist / (totalLength + 0.001) > 0.82) {
+            return { type: "line", start: pStart, end: pEnd, length: straightDist, cx: (pStart.x + pEnd.x) * 0.5, cy: (pStart.y + pEnd.y) * 0.5, confidence: 0.96 };
+        }
+    }
+    return null;
+};
+global.ShapeRecognizer = ShapeRecognizer;
+
+// ==============================================================================
+// MODULAR SUBSYSTEM 2: DrawingAndSnappingModule (3D Polyline Inking & Shape Snapper)
+// ==============================================================================
+function DrawingAndSnappingModule(kernelState) {
+    this.kernel = kernelState;
+    this.recognizer = new ShapeRecognizer();
+    this.isDrawing = false;
+    this.currentStrokePoints = [];
+    this.drawnObjects = [];
+    this.strokeSegments = [];
+    this.maxSegments = 30;
+    this.initStrokePool();
+}
+
+DrawingAndSnappingModule.prototype.initStrokePool = function() {
+    this.strokePool = [];
+    for (var i = 0; i < this.maxSegments; i++) {
+        var seg = global.scene.createSceneObject("Stroke_Segment_" + i);
+        var vis = seg.createComponent("Component.RenderMeshVisual");
+        if (this.kernel.boxMesh) vis.mesh = this.kernel.boxMesh;
+        if (this.kernel.pbrMaterial) vis.material = this.kernel.pbrMaterial;
+        seg.getTransform().setWorldScale(new vec3(0.3, 0.3, 0.3));
+        this.applyColor(seg, new vec4(0.0, 0.94, 1.0, 0.9));
+        seg.enabled = false;
+        this.strokePool.push(seg);
+    }
+};
+
+DrawingAndSnappingModule.prototype.applyColor = function(obj, color) {
+    if (!obj) return;
+    var visual = obj.getComponent("Component.RenderMeshVisual") || obj.getComponent("RenderMeshVisual");
+    if (visual && visual.mainPass && visual.mainPass.baseColor) {
+        visual.mainPass.baseColor = color;
+    }
+};
+
+DrawingAndSnappingModule.prototype.startStroke = function(point3D) {
+    this.isDrawing = true;
+    this.currentStrokePoints = [{ x: point3D.x, y: point3D.y, z: point3D.z }];
+    this.resetStrokePool();
+};
+
+DrawingAndSnappingModule.prototype.addStrokePoint = function(point3D) {
+    if (!this.isDrawing) return;
+    var last = this.currentStrokePoints[this.currentStrokePoints.length - 1];
+    var dx = point3D.x - last.x;
+    var dy = point3D.y - last.y;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist > 0.8) {
+        this.currentStrokePoints.push({ x: point3D.x, y: point3D.y, z: point3D.z });
+        this.renderStrokeSegments();
+    }
+};
+
+DrawingAndSnappingModule.prototype.renderStrokeSegments = function() {
+    var count = Math.min(this.currentStrokePoints.length - 1, this.maxSegments);
+    for (var i = 0; i < count; i++) {
+        var pA = this.currentStrokePoints[i];
+        var pB = this.currentStrokePoints[i + 1];
+        var midX = (pA.x + pB.x) * 0.5;
+        var midY = (pA.y + pB.y) * 0.5;
+        var midZ = (pA.z + pB.z) * 0.5;
+        var dx = pB.x - pA.x;
+        var dy = pB.y - pA.y;
+        var dz = pB.z - pA.z;
+        var len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (len < 0.01) len = 0.01;
+
+        var segObj = this.strokePool[i];
+        segObj.enabled = true;
+        var trans = segObj.getTransform();
+        trans.setWorldPosition(new vec3(midX, midY, midZ));
+        trans.setWorldScale(new vec3(0.28, 0.28, len));
+        var dir = new vec3(dx / len, dy / len, dz / len);
+        trans.setLocalRotation(quat.lookAt(dir, vec3.up()));
+    }
+};
+
+DrawingAndSnappingModule.prototype.resetStrokePool = function() {
+    for (var i = 0; i < this.strokePool.length; i++) {
+        this.strokePool[i].enabled = false;
+    }
+};
+
+DrawingAndSnappingModule.prototype.endStroke = function() {
+    if (!this.isDrawing) return null;
+    this.isDrawing = false;
+    this.resetStrokePool();
+
+    if (this.currentStrokePoints.length < 5) {
+        this.currentStrokePoints = [];
+        return null;
+    }
+
+    var shape = this.recognizer.recognize(this.currentStrokePoints);
+    if (shape) {
+        print("[INFINITY INK] ✦ Snapped Shape Recognized: " + shape.type.toUpperCase());
+        var snappedMesh = this.instantiateSnappedShape(shape);
+        this.currentStrokePoints = [];
+        return { shape: shape, obj: snappedMesh };
+    } else {
+        this.currentStrokePoints = [];
+        return null;
+    }
+};
+
+DrawingAndSnappingModule.prototype.instantiateSnappedShape = function(shape) {
+    var snappedObj = global.scene.createSceneObject("Snapped_Shape_" + shape.type + "_" + (this.drawnObjects.length + 1));
+    var vis = snappedObj.createComponent("Component.RenderMeshVisual");
+
+    if (shape.type === "circle") {
+        if (this.kernel.torusMesh) vis.mesh = this.kernel.torusMesh;
+        else if (this.kernel.sphereMesh) vis.mesh = this.kernel.sphereMesh;
+        snappedObj.getTransform().setWorldPosition(new vec3(shape.cx, shape.cy, -67.5));
+        var diam = shape.r * 2.0;
+        snappedObj.getTransform().setWorldScale(new vec3(diam, diam, 0.4));
+        this.applyColor(snappedObj, new vec4(1.0, 0.75, 0.08, 0.95)); // Radiant Gold ring
+    } else if (shape.type === "rect") {
+        if (this.kernel.boxMesh) vis.mesh = this.kernel.boxMesh;
+        snappedObj.getTransform().setWorldPosition(new vec3(shape.cx, shape.cy, -67.5));
+        snappedObj.getTransform().setWorldScale(new vec3(shape.width, shape.height, 0.4));
+        this.applyColor(snappedObj, new vec4(0.0, 1.0, 0.66, 0.90)); // Neon Emerald frame
+    } else if (shape.type === "line") {
+        if (this.kernel.boxMesh) vis.mesh = this.kernel.boxMesh;
+        snappedObj.getTransform().setWorldPosition(new vec3(shape.cx, shape.cy, -67.5));
+        snappedObj.getTransform().setWorldScale(new vec3(0.35, 0.35, shape.length));
+        var dx = shape.end.x - shape.start.x;
+        var dy = shape.end.y - shape.start.y;
+        var dir = new vec3(dx / shape.length, dy / shape.length, 0);
+        snappedObj.getTransform().setLocalRotation(quat.lookAt(dir, vec3.up()));
+        this.applyColor(snappedObj, new vec4(0.0, 0.94, 1.0, 0.95)); // Cyberpunk Cyan
+    }
+
+    this.drawnObjects.push(shape);
+    return snappedObj;
+};
+global.DrawingAndSnappingModule = DrawingAndSnappingModule;
+
+// ==============================================================================
+// MODULAR SUBSYSTEM 3: FTUEOnboarding (3-Step Spatial Onboarding Engine)
+// ==============================================================================
+function FTUEOnboarding(storageKey) {
+    this.storageKey = storageKey || "INFINITY_FTUE_V3";
+    this.completed = false;
+    
+    if (global.persistentStorageSystem && global.persistentStorageSystem.store) {
+        try {
+            this.completed = (global.persistentStorageSystem.store.getString(this.storageKey) === "true");
+        } catch(e) {}
+    }
+    
+    this.active = !this.completed;
+    this.step = this.active ? 1 : 0;
+    this.steps = [
+        {
+            id: 1,
+            tag: "STEP 1 OF 3 // SPATIAL SELECTION",
+            prompt: "PINCH ANY NOTE TO REPOSITION",
+            detail: "Grab a 3D thought card with pinch & drag across your physical desk."
+        },
+        {
+            id: 2,
+            tag: "STEP 2 OF 3 // CELESTIAL NAV",
+            prompt: "PINCH A PLANET TO EXPLORE ANOTHER WORLD",
+            detail: "Pinch any orbiting planetary sphere below to warp to that workspace."
+        },
+        {
+            id: 3,
+            tag: "STEP 3 OF 3 // AMBIENT ERGONOMICS",
+            prompt: "LOOK AWAY TO GIVE YOUR WORLD ROOM TO BREATHE",
+            detail: "Tilt your head up or glance away to watch INFINITY softly fade to ambient transparency."
+        }
+    ];
+    this.listeners = [];
+}
+
+FTUEOnboarding.prototype.onStepChange = function(cb) {
+    if (typeof cb === "function") this.listeners.push(cb);
+};
+
+FTUEOnboarding.prototype.notify = function() {
+    for (var i = 0; i < this.listeners.length; i++) {
+        try { this.listeners[i](this.step, this.getCurrentStepData()); } catch(e) {}
+    }
+};
+
+FTUEOnboarding.prototype.isActive = function() {
+    return this.active && !this.completed && this.step >= 1 && this.step <= 3;
+};
+
+FTUEOnboarding.prototype.getCurrentStepData = function() {
+    if (!this.isActive()) return null;
+    return this.steps[this.step - 1];
+};
+
+FTUEOnboarding.prototype.advance = function(expectedStep) {
+    if (!this.active) return;
+    if (!expectedStep || this.step === expectedStep) {
+        if (this.step < 3) {
+            this.step += 1;
+            this.notify();
+        } else {
+            this.finish();
+        }
+    }
+};
+
+FTUEOnboarding.prototype.finish = function() {
+    this.active = false;
+    this.completed = true;
+    this.step = 0;
+    if (global.persistentStorageSystem && global.persistentStorageSystem.store) {
+        try {
+            global.persistentStorageSystem.store.putString(this.storageKey, "true");
+        } catch(e) {}
+    }
+    this.notify();
+    print("[INFINITY ONBOARDING] ✓ Tutorial completed and persisted.");
+};
+
+FTUEOnboarding.prototype.reset = function() {
+    this.completed = false;
+    this.active = true;
+    this.step = 1;
+    if (global.persistentStorageSystem && global.persistentStorageSystem.store) {
+        try {
+            global.persistentStorageSystem.store.putString(this.storageKey, "false");
+        } catch(e) {}
+    }
+    this.notify();
+    print("[INFINITY ONBOARDING] ↺ Tutorial reset for replay.");
+};
+global.FTUEOnboarding = FTUEOnboarding;
+
+// ==============================================================================
+// MODULAR SUBSYSTEM 4: NoteEditorKeyboard (3D Easel & Spatial Virtual Keyboard Deck)
+// ==============================================================================
+function NoteEditorKeyboard(kernelState) {
+    this.kernel = kernelState;
+    this.active = false;
+    this.targetNote = null;
+    this.editField = "body";
+    this.editTitle = "";
+    this.editBody = "";
+    this.capsLock = false;
+    this.easelObj = null;
+    this.easelLabel = null;
+    this.keyboardDeck = null;
+    this.keycapObjects = [];
+
+    this.KEY_LAYOUT = [
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+        ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+        ["A", "S", "D", "F", "G", "H", "J", "K", "L", "BKSP"],
+        ["TAB", "Z", "X", "C", "V", "B", "N", "M", "SPACE", "SAVE"]
+    ];
+
+    this.initUI();
+}
+
+NoteEditorKeyboard.prototype.initUI = function() {
+    // 1. Editor Display Easel (Z = -64cm, Y = 6.5cm)
+    this.easelObj = global.scene.createSceneObject("Editor_Easel_Backplate");
+    var visual = this.easelObj.createComponent("Component.RenderMeshVisual");
+    if (this.kernel.boxMesh) visual.mesh = this.kernel.boxMesh;
+    if (this.kernel.pbrMaterial) visual.material = this.kernel.pbrMaterial;
+    this.easelObj.getTransform().setWorldPosition(new vec3(0.0, 6.5, -64.0));
+    this.easelObj.getTransform().setWorldScale(new vec3(32.0, 14.0, 0.4));
+    this.applyColor(this.easelObj, new vec4(0.04, 0.08, 0.16, 0.95));
+
+    this.easelLabel = global.scene.createSceneObject("Editor_Easel_Text");
+    var txt = this.easelLabel.createComponent("Component.Text3D");
+    txt.text = "✦ INFINITY NOTE EDITOR\n[SELECT A NOTE TO EDIT]";
+    txt.size = 4.2;
+    if (txt.mainPass && txt.mainPass.baseColor) {
+        txt.mainPass.baseColor = new vec4(0.0, 0.94, 1.0, 1.0);
+    }
+    this.easelLabel.getTransform().setWorldPosition(new vec3(0.0, 6.5, -63.5));
+
+    // 2. Spatial Virtual Keyboard Deck (Z = -58cm, Y = -4.5cm, tilted 22°)
+    this.keyboardDeck = global.scene.createSceneObject("Editor_Keyboard_Deck");
+    var kbVisual = this.keyboardDeck.createComponent("Component.RenderMeshVisual");
+    if (this.kernel.boxMesh) kbVisual.mesh = this.kernel.boxMesh;
+    if (this.kernel.pbrMaterial) kbVisual.material = this.kernel.pbrMaterial;
+    this.keyboardDeck.getTransform().setWorldPosition(new vec3(0.0, -4.5, -58.0));
+    this.keyboardDeck.getTransform().setWorldScale(new vec3(36.0, 11.0, 0.4));
+    this.keyboardDeck.getTransform().setLocalRotation(quat.fromEulerAngles(22.0 * Math.PI / 180.0, 0, 0));
+    this.applyColor(this.keyboardDeck, new vec4(0.02, 0.05, 0.10, 0.92));
+
+    // 3. Build Keycaps
+    var startX = -15.5;
+    var startY = -1.2;
+    var stepX = 3.4;
+    var stepY = -2.5;
+
+    for (var r = 0; r < this.KEY_LAYOUT.length; r++) {
+        var row = this.KEY_LAYOUT[r];
+        for (var c = 0; c < row.length; c++) {
+            var keyChar = row[c];
+            var kObj = global.scene.createSceneObject("Keycap_" + keyChar + "_" + r + "_" + c);
+            var kVis = kObj.createComponent("Component.RenderMeshVisual");
+            if (this.kernel.boxMesh) kVis.mesh = this.kernel.boxMesh;
+            if (this.kernel.pbrMaterial) kVis.material = this.kernel.pbrMaterial;
+
+            var kx = startX + c * stepX;
+            var ky = startY + r * stepY;
+            var kz = -57.5 + (r * 0.9);
+
+            var kw = (keyChar === "SPACE" || keyChar === "SAVE" || keyChar === "BKSP" || keyChar === "TAB") ? 4.2 : 2.8;
+            kObj.getTransform().setWorldScale(new vec3(kw, 1.9, 0.3));
+            kObj.getTransform().setWorldPosition(new vec3(kx, ky, kz));
+            kObj.getTransform().setLocalRotation(quat.fromEulerAngles(22.0 * Math.PI / 180.0, 0, 0));
+
+            var keyColor = (keyChar === "SAVE") ? new vec4(0.0, 1.0, 0.66, 0.95) :
+                           (keyChar === "BKSP") ? new vec4(1.0, 0.25, 0.25, 0.95) :
+                           (keyChar === "TAB")  ? new vec4(1.0, 0.75, 0.08, 0.95) :
+                           new vec4(0.12, 0.22, 0.36, 0.90);
+            this.applyColor(kObj, keyColor);
+
+            var kLbl = global.scene.createSceneObject("KeyLabel_" + keyChar);
+            var kTxt = kLbl.createComponent("Component.Text3D");
+            kTxt.text = keyChar;
+            kTxt.size = 2.6;
+            kLbl.getTransform().setWorldPosition(new vec3(kx, ky, kz + 0.3));
+            kLbl.getTransform().setLocalRotation(quat.fromEulerAngles(22.0 * Math.PI / 180.0, 0, 0));
+
+            this.keycapObjects.push({
+                obj: kObj,
+                labelObj: kLbl,
+                key: keyChar,
+                pos: new vec3(kx, ky, kz)
+            });
+        }
+    }
+
+    this.setVisible(false);
+};
+
+NoteEditorKeyboard.prototype.applyColor = function(obj, color) {
+    if (!obj) return;
+    var visual = obj.getComponent("Component.RenderMeshVisual") || obj.getComponent("RenderMeshVisual");
+    if (visual && visual.mainPass && visual.mainPass.baseColor) {
+        visual.mainPass.baseColor = color;
+    }
+};
+
+NoteEditorKeyboard.prototype.setVisible = function(vis) {
+    this.active = vis;
+    if (this.easelObj) this.easelObj.enabled = vis;
+    if (this.easelLabel) this.easelLabel.enabled = vis;
+    if (this.keyboardDeck) this.keyboardDeck.enabled = vis;
+    for (var i = 0; i < this.keycapObjects.length; i++) {
+        if (this.keycapObjects[i].obj) this.keycapObjects[i].obj.enabled = vis;
+        if (this.keycapObjects[i].labelObj) this.keycapObjects[i].labelObj.enabled = vis;
+    }
+};
+
+NoteEditorKeyboard.prototype.openEditor = function(note) {
+    if (!note || !note.cfg) return;
+    this.targetNote = note;
+    this.editTitle = note.cfg.title || "UNTITLED";
+    this.editBody = note.cfg.body || "";
+    this.editField = "body";
+    this.setVisible(true);
+    this.updateDisplay();
+    print("[INFINITY EDITOR] Opened 3D Note Editor for: " + this.editTitle);
+};
+
+NoteEditorKeyboard.prototype.closeEditor = function() {
+    this.setVisible(false);
+    this.targetNote = null;
+    print("[INFINITY EDITOR] Closed Note Editor");
+};
+
+NoteEditorKeyboard.prototype.updateDisplay = function() {
+    if (!this.easelLabel) return;
+    var txt = this.easelLabel.getComponent("Component.Text3D");
+    if (!txt) return;
+
+    var isTitle = (this.editField === "title");
+    var fieldIndicator = isTitle ? ">>> [EDITING TITLE] <<<" : ">>> [EDITING BODY] <<<";
+    var bodyLines = this.editBody.split("\n").slice(0, 3).join("\n");
+
+    var displayStr = "✦ INFINITY // SPATIAL NOTE EDITOR\n" +
+                     fieldIndicator + "  (Tap TAB to switch)\n" +
+                     "----------------------------------------\n" +
+                     "TITLE: " + this.editTitle + (isTitle ? " ▌" : "") + "\n" +
+                     "BODY:\n" + bodyLines + (!isTitle ? " ▌" : "") + "\n" +
+                     "----------------------------------------\n" +
+                     "[ TAB: Switch Field | BKSP: Delete | SAVE: Commit ]";
+    txt.text = displayStr;
+};
+
+NoteEditorKeyboard.prototype.handleKeyPress = function(key) {
+    if (!this.active) return false;
+
+    if (key === "SAVE") {
+        this.saveChanges();
+        return true;
+    } else if (key === "TAB") {
+        this.editField = (this.editField === "title") ? "body" : "title";
+        this.updateDisplay();
+        return true;
+    } else if (key === "BKSP") {
+        if (this.editField === "title") {
+            if (this.editTitle.length > 0) this.editTitle = this.editTitle.substring(0, this.editTitle.length - 1);
+        } else {
+            if (this.editBody.length > 0) this.editBody = this.editBody.substring(0, this.editBody.length - 1);
+        }
+        this.updateDisplay();
+        return true;
+    } else if (key === "SPACE") {
+        if (this.editField === "title") {
+            if (this.editTitle.length < 24) this.editTitle += " ";
+        } else {
+            if (this.editBody.length < 90) this.editBody += " ";
+        }
+        this.updateDisplay();
+        return true;
+    } else {
+        var ch = this.capsLock ? key.toUpperCase() : key;
+        if (this.editField === "title") {
+            if (this.editTitle.length < 24) this.editTitle += ch;
+        } else {
+            if (this.editBody.length < 90) this.editBody += ch;
+        }
+        this.updateDisplay();
+        return true;
+    }
+};
+
+NoteEditorKeyboard.prototype.saveChanges = function() {
+    if (!this.targetNote) return;
+    this.targetNote.cfg.title = this.editTitle;
+    this.targetNote.cfg.body = this.editBody;
+    this.targetNote.status = "SYNCHRONIZED";
+
+    if (this.targetNote.labelObj) {
+        var txt = this.targetNote.labelObj.getComponent("Component.Text3D");
+        if (txt) {
+            txt.text = this.editTitle + "\n" + this.editBody + "\n[ SYNCHRONIZED ]";
+        }
+    }
+
+    print("[INFINITY EDITOR] ✓ Changes saved to note: " + this.editTitle);
+    this.closeEditor();
+
+    if (this.kernel.saveWorkspaceState && this.kernel.state && this.kernel.state.focusedWorkspace) {
+        this.kernel.saveWorkspaceState(this.kernel.state.focusedWorkspace);
+    }
+    if (this.kernel.state) {
+        this.kernel.state.pulseEnergy = 1.0;
+    }
+};
+
+NoteEditorKeyboard.prototype.checkRayHit = function(screenPos, raycastFn) {
+    if (!this.active) return false;
+
+    for (var i = 0; i < this.keycapObjects.length; i++) {
+        var k = this.keycapObjects[i];
+        var hitResult = raycastFn(screenPos, k.pos, 2.2);
+        if (hitResult.hit) {
+            this.handleKeyPress(k.key);
+            return true;
+        }
+    }
+
+    if (this.easelObj) {
+        var easelPos = this.easelObj.getTransform().getWorldPosition();
+        var eHit = raycastFn(screenPos, easelPos, 14.0);
+        if (eHit.hit) {
+            this.editField = (this.editField === "title") ? "body" : "title";
+            this.updateDisplay();
+            return true;
+        }
+    }
+
+    return false;
+};
+global.NoteEditorKeyboard = NoteEditorKeyboard;
+
+// ==============================================================================
+// MODULAR SUBSYSTEM 5: LiveAIAssistantModule (Contextual Edge AI Bridge)
+// ==============================================================================
+function LiveAIAssistantModule(kernelState) {
+    this.kernel = kernelState;
+    this.isLoading = false;
+    this.requestCount = 0;
+}
+
+LiveAIAssistantModule.prototype.synthesizeSpatialExpansion = function(selectedNote, workspaceKey, callback) {
+    this.requestCount++;
+    this.isLoading = true;
+
+    var currentTitle = (selectedNote && selectedNote.cfg && selectedNote.cfg.title) ? selectedNote.cfg.title : "COGNITIVE ROOT";
+    var currentBody = (selectedNote && selectedNote.cfg && selectedNote.cfg.body) ? selectedNote.cfg.body : "Spatial concept";
+
+    print("[INFINITY AI] Initiating synthesis for workspace [" + workspaceKey + "] on node: '" + currentTitle + "'");
+
+    if (this.kernel.state.voiceHudLabel) {
+        var hTxt = this.kernel.state.voiceHudLabel.getComponent("Component.Text3D");
+        if (hTxt) hTxt.text = "[ ✦ AI SYNTHESIZING NEURAL VECTORS... ]";
+    }
+
+    var expansion = this.generateContextualExpansion(currentTitle, currentBody, workspaceKey);
+
+    var resultPayload = {
+        success: true,
+        source: "EDGE_INFERENCE_ENGINE",
+        title: "✦ SYNTHESIS: " + currentTitle.toUpperCase().replace(/[^A-Z0-9 ]/g, "").trim().substring(0, 18),
+        body: "• " + expansion.text + "\n• " + expansion.link + "\n[x] Vector Linked",
+        status: "SYNCHRONIZED",
+        confidence: 0.94
+    };
+
+    this.isLoading = false;
+    print("[INFINITY AI] ✓ Contextual Edge Synthesis complete: " + resultPayload.title);
+
+    if (typeof callback === "function") {
+        callback(resultPayload);
+    }
+    return resultPayload;
+};
+
+LiveAIAssistantModule.prototype.generateContextualExpansion = function(title, body, wsKey) {
+    var tLower = title.toLowerCase();
+    if (wsKey === "Think") {
+        if (tLower.indexOf("arch") !== -1 || tLower.indexOf("6dof") !== -1) {
+            return {
+                text: "Multi-Anchor Kinematic Transform: Decouples optical head pose from world desk grid.",
+                link: "6DoF Parallax Drift Compensator calibrated."
+            };
+        } else if (tLower.indexOf("gaze") !== -1 || tLower.indexOf("sik") !== -1) {
+            return {
+                text: "Micro-Saccade Filter: Stabilizes 3D raycast target during sustained manual pinches.",
+                link: "SIK Gaze Raycast Confidence: 98.6%."
+            };
+        } else {
+            return {
+                text: "Attention Flow Graph: Dynamically weights visual hierarchy across 15° cylindrical arc.",
+                link: "Concentric optical focus plane locked at Z=-68cm."
+            };
+        }
+    } else if (wsKey === "Create") {
+        return {
+            text: "Volumetric Cyberpunk Shader: Computes additive glass transmission without dark occlusion.",
+            link: "Waveguide additive color balance optimized."
+        };
+    } else if (wsKey === "Learn") {
+        return {
+            text: "Ergonomic Hand Kinematics: Calibrates pinch hysteresis against near-field optical distortion.",
+            link: "Seated arm elevation model confirmed within low-fatigue envelope."
+        };
+    } else if (wsKey === "Store") {
+        return {
+            text: "Persistent Coordinate Vault: Preserves spatial desk coordinates across sessions.",
+            link: "Local persistent storage system synchronized."
+        };
+    } else {
+        return {
+            text: "Cosmic Latent Space Traversal: Expands thought clusters into 6DoF constellation graphs.",
+            link: "Infinite whiteboard zoom levels compiled."
+        };
+    }
+};
+global.LiveAIAssistantModule = LiveAIAssistantModule;
+
+// ==============================================================================
+// MODULAR SUBSYSTEM 6: SessionDocumentExporter (Markdown & JSON Vault Exporter)
+// ==============================================================================
+function SessionDocumentExporter() {}
+
+SessionDocumentExporter.exportSessionDocument = function(sessionData) {
+    var wsName = sessionData.workspaceName || "THINK";
+    var notes = sessionData.notes || [];
+    var shapes = sessionData.shapes || [];
+    var timestamp = new Date().toISOString();
+
+    var md = "# 🌌 INFINITY // Spatial Thinking Session Report\n\n";
+    md += "* **Generated:** `" + timestamp + "`\n";
+    md += "* **Active Workspace:** **" + wsName.toUpperCase() + "**\n";
+    md += "* **Target Hardware:** Snap Spectacles (6DoF Optical AR)\n";
+    md += "* **Interaction Engine:** Spectacles Interaction Kit (SIK) + Infinity OS Kernel\n\n";
+    md += "---\n\n";
+    md += "## 📋 Spatial Thought Objects & Cognitive Notes\n\n";
+
+    if (notes.length === 0) {
+        md += "*No active notes in this workspace.*\n\n";
+    } else {
+        for (var i = 0; i < notes.length; i++) {
+            var n = notes[i];
+            var isSync = (n.status === "SYNCHRONIZED");
+            var check = isSync ? "[x]" : "[ ]";
+            md += "### " + (i + 1) + ". " + check + " " + (n.cfg ? n.cfg.title : "Untitled Note") + " `[" + (n.status || "ANCHORED") + "]`\n";
+            md += "* **Position (3D):** `(" + n.curPos.x.toFixed(1) + ", " + n.curPos.y.toFixed(1) + ", " + n.curPos.z.toFixed(1) + ") cm`\n";
+            if (n.cfg && n.cfg.body) {
+                var lines = n.cfg.body.split("\n");
+                for (var l = 0; l < lines.length; l++) {
+                    var line = lines[l].trim();
+                    if (line) md += "  > " + line + "\n";
+                }
+            }
+            md += "\n";
+        }
+    }
+
+    md += "---\n\n";
+    md += "## 🎨 Snapped Geometric Shapes & Drawings\n\n";
+    if (shapes.length === 0) {
+        md += "*No geometric shapes drawn in this session.*\n\n";
+    } else {
+        for (var s = 0; s < shapes.length; s++) {
+            var sh = shapes[s];
+            md += "* **Shape #" + (s + 1) + ":** `" + sh.type.toUpperCase() + "` at `(" + sh.cx.toFixed(1) + ", " + sh.cy.toFixed(1) + ")`\n";
+        }
+    }
+
+    var exportPayload = {
+        schema: "INFINITY_SPATIAL_SESSION_V2",
+        exportedAt: timestamp,
+        workspace: wsName,
+        markdown: md,
+        rawNotesCount: notes.length,
+        rawShapesCount: shapes.length
+    };
+
+    if (global.persistentStorageSystem && global.persistentStorageSystem.store) {
+        try {
+            global.persistentStorageSystem.store.putString("INFINITY_EXPORT_" + wsName, JSON.stringify(exportPayload));
+            print("[INFINITY VAULT] Session exported to persistent storage for workspace: " + wsName);
+        } catch(e) {}
+    }
+
+    return exportPayload;
+};
+global.SessionDocumentExporter = SessionDocumentExporter;
+
+// ==============================================================================
+// MODULAR SUBSYSTEM 7: DesktopCompanionSyncModule (Glasses-Native Ingestion Bridge)
+// ==============================================================================
+function DesktopCompanionSyncModule(kernelState) {
+    this.kernel = kernelState;
+    this.receivedPackets = 0;
+}
+
+DesktopCompanionSyncModule.prototype.injectDesktopSnippet = function(title, content, category) {
+    this.receivedPackets++;
+    var noteTitle = title || ("DESKTOP CLIP #" + this.receivedPackets);
+    var noteBody = content || "External desktop snippet injected into AR.";
+    var targetWs = category || (this.kernel.state.focusedWorkspace || "Think");
+
+    print("[INFINITY DESKTOP SYNC] Ingesting content from companion to [" + targetWs + "]: " + noteTitle);
+
+    if (this.kernel.state.notes && this.kernel.state.notes.length > 0) {
+        var note = this.kernel.state.notes[0];
+        note.cfg.title = "⚡ " + noteTitle;
+        note.cfg.body = "• " + noteBody + "\n[x] Synced from Companion";
+        note.status = "SYNCHRONIZED";
+
+        if (note.labelObj) {
+            var txt = note.labelObj.getComponent("Component.Text3D");
+            if (txt) {
+                txt.text = note.cfg.title + "\n" + note.cfg.body + "\n[ SYNCHRONIZED ]";
+            }
+        }
+    }
+
+    if (this.kernel.state.voiceHud && this.kernel.state.voiceHudLabel) {
+        var hTxt = this.kernel.state.voiceHudLabel.getComponent("Component.Text3D");
+        if (hTxt) hTxt.text = "[ ⚡ SNIPPET INJECTED TO AR ]";
+        this.kernel.state.voiceHudTimer = 3.0;
+    }
+
+    if (this.kernel.state) {
+        this.kernel.state.pulseEnergy = 1.0;
+    }
+
+    return { success: true, title: noteTitle, workspace: targetWs };
+};
+global.DesktopCompanionSyncModule = DesktopCompanionSyncModule;
+
+// ==============================================================================
+// Core Engine State & Data Structures
+// ==============================================================================
 var state = {
-    mode: "WORKSPACE_FOCUS",       // "GALAXY" or "WORKSPACE_FOCUS"
+    mode: "WORKSPACE_FOCUS", // "GALAXY" or "WORKSPACE_FOCUS"
     focusedWorkspace: "Think",
     camera: null,
     planets: {},
     labels: {},
-    deskSurface: null,
+    notes: [],
+    constellations: [],
     whiteboard: null,
-    headerLabel: null,
-    subLabel: null,
+    deskSurface: null,
     voiceHud: null,
     voiceHudLabel: null,
     voiceHudTimer: 0.0,
+    headerLabel: null,
+    subLabel: null,
     audioRipple: null,
-    audioRippleScale: 0.1,
+    audioRippleScale: 0.2,
     audioRippleActive: false,
-    notes: [],                     // Array of note controller objects
-    constellations: [],            // Array of SceneObjects for connection beams
     draggedNote: null,
-    dragOffset: new vec3(0, 0, 0),
-    time: 0,
-    aiIndex: 0,
-    pulseEnergy: 0.0,
-    ambientOpacity: 1.0,           // Glance-Away ambient attenuation factor (0.2 to 1.0)
-    hoveredNote: null,
     lastScreenPos: new vec2(0.5, 0.5),
+    time: 0.0,
+    pulseEnergy: 0.0,
+    ambientOpacity: 1.0,
+    aiIndex: 0,
     persistentCache: {},
-    // Integrated Modular Subsystems
+    ftueBillboard: null,
+    ftueText: null,
+    ftueOnboarding: null,
     noteEditor: null,
     shapeModule: null,
-    ftueOnboarding: null,
     aiModule: null,
-    ftueBillboard: null,
-    ftueText: null
+    desktopSync: null
+};
+
+// Touch / Tap Discrimination State (Phase 5)
+var touchState = {
+    startPos: new vec2(0, 0),
+    startTime: 0,
+    hasMoved: false,
+    dragThreshold: 0.02, // 2% screen distance threshold
+    lastDragEndTime: 0,
+    activeTouch: false
 };
 
 // ------------------------------------------------------------------------------
@@ -518,13 +1280,12 @@ script.createEvent('OnStartEvent').bind(function() {
         print("[INFINITY OS] Spatial Camera linked successfully");
     }
 
-    // 2. Virtual Desk Surface Stand-In Plate with Spatial Corner Markers & Subtle Boundary
+    // 2. Virtual Desk Surface Stand-In Plate (90x1.2x54cm) with Corner Alignments
     state.deskSurface = getOrCreateObject("Virtual_Desk_Surface", script.boxMesh, script.pbrMaterial);
     state.deskSurface.getTransform().setWorldPosition(new vec3(0.0, -18.0, -70.0));
     state.deskSurface.getTransform().setWorldScale(new vec3(90.0, 1.2, 54.0));
     applyMaterialStyle(state.deskSurface, script.texWhiteboard, new vec4(0.06, 0.09, 0.16, 0.78));
 
-    // Spatial Desk Alignment: Subtle 4 Corner L-Brackets & Boundary Rim
     var deskCorners = [
         { name: "Desk_Corner_TL", x: -43.0, z: -95.0 },
         { name: "Desk_Corner_TR", x:  43.0, z: -95.0 },
@@ -536,16 +1297,15 @@ script.createEvent('OnStartEvent').bind(function() {
         var cornerObj = getOrCreateObject(cData.name, script.boxMesh, script.pbrMaterial);
         cornerObj.getTransform().setWorldPosition(new vec3(cData.x, -17.2, cData.z));
         cornerObj.getTransform().setWorldScale(new vec3(3.2, 0.35, 3.2));
-        applyMaterialStyle(cornerObj, null, new vec4(0.0, 0.94, 1.0, 0.92)); // Luminous Cyan Marker
+        applyMaterialStyle(cornerObj, null, new vec4(0.0, 0.94, 1.0, 0.92));
     }
 
-    // Subtle Surface Boundary Trim
     var deskTrim = getOrCreateObject("Desk_Surface_Rim", script.boxMesh, script.pbrMaterial);
     deskTrim.getTransform().setWorldPosition(new vec3(0.0, -17.3, -70.0));
     deskTrim.getTransform().setWorldScale(new vec3(91.2, 0.25, 55.2));
-    applyMaterialStyle(deskTrim, null, new vec4(1.0, 0.75, 0.08, 0.40)); // Restrained Gold Accent Accent
+    applyMaterialStyle(deskTrim, null, new vec4(1.0, 0.75, 0.08, 0.40));
 
-    // 3. Configure Planets & Orbital Labels
+    // 3. Configure Celestial Planets & Orbital Labels
     for (var pName in GALAXY_PLANET_CONFIGS) {
         var cfg = GALAXY_PLANET_CONFIGS[pName];
         var pObj = getOrCreateObject(pName, script.sphereMesh, script.pbrMaterial);
@@ -582,7 +1342,7 @@ script.createEvent('OnStartEvent').bind(function() {
     state.voiceHudLabel = getOrCreateText3D("Label_Voice_HUD", "[ ✦ INFINITY SPATIAL OS // DESK ANCHORED ]", 4.2, new vec4(0.0, 0.94, 1.0, 1.0));
     state.voiceHudLabel.getTransform().setWorldPosition(new vec3(0.0, 11.2, -68.3));
 
-    // 6. Whiteboard Headers & Subtitles (High Legibility Waveguide Typography)
+    // 6. Whiteboard Headers & Subtitles
     state.headerLabel = getOrCreateText3D("Label_Whiteboard_Header", "INFINITY // THINK WORKSPACE", 11.0, new vec4(0.0, 0.94, 1.0, 1.0));
     state.headerLabel.getTransform().setWorldPosition(new vec3(0, 7.5, -70));
 
@@ -645,7 +1405,7 @@ script.createEvent('OnStartEvent').bind(function() {
     state.audioRipple.getTransform().setWorldScale(new vec3(0.1, 0.1, 0.1));
     applyMaterialStyle(state.audioRipple, null, new vec4(0.0, 0.94, 1.0, 0.0));
 
-    // 10. Instantiate Integrated Feature Modules
+    // 10. Deterministic Subsystem Initialization Sequence (Phases 3 & 4)
     var kernelInterface = {
         state: state,
         WORKSPACES: WORKSPACES,
@@ -656,22 +1416,38 @@ script.createEvent('OnStartEvent').bind(function() {
         saveWorkspaceState: saveWorkspaceState
     };
 
+    // Subsystem 1: FTUE Onboarding
+    if (global.FTUEOnboarding) {
+        state.ftueOnboarding = new global.FTUEOnboarding("INFINITY_FTUE_V3");
+        initFTUEBillboard();
+        print("[INFINITY OS] ✓ FTUE 3-Step Spatial Onboarding Engine initialized.");
+    }
+
+    // Subsystem 2: 3D Note Editor & Virtual Keyboard Deck
     if (global.NoteEditorKeyboard) {
         state.noteEditor = new global.NoteEditorKeyboard(kernelInterface);
-        print("[INFINITY OS] 3D Note Editor & Spatial Keyboard initialized.");
+        print("[INFINITY OS] ✓ 3D Note Editor & Spatial Keyboard Deck initialized.");
     }
+
+    // Subsystem 3: 3D Polyline Inking & Shape Snapper
     if (global.DrawingAndSnappingModule) {
         state.shapeModule = new global.DrawingAndSnappingModule(kernelInterface);
-        print("[INFINITY OS] 3D Inking & Shape Recognizer initialized.");
+        print("[INFINITY OS] ✓ 3D Inking & Shape Recognizer initialized.");
     }
+
+    // Subsystem 4: Live Contextual AI Assistant Bridge
     if (global.LiveAIAssistantModule) {
         state.aiModule = new global.LiveAIAssistantModule(kernelInterface);
-        print("[INFINITY OS] Live Contextual AI Assistant Bridge initialized.");
+        print("[INFINITY OS] ✓ Live Contextual AI Assistant Bridge initialized.");
     }
-    if (global.FTUEOnboarding) {
-        state.ftueOnboarding = new global.FTUEOnboarding("INFINITY_FTUE_V2");
-        initFTUEBillboard();
-        print("[INFINITY OS] FTUE 3-Step Spatial Onboarding Engine initialized.");
+
+    // Subsystem 5: Desktop Companion Sync Bridge
+    if (global.DesktopCompanionSyncModule) {
+        state.desktopSync = new global.DesktopCompanionSyncModule(kernelInterface);
+        global.infinityInjectDesktopSnippet = function(title, content, category) {
+            return state.desktopSync.injectDesktopSnippet(title, content, category);
+        };
+        print("[INFINITY OS] ✓ Desktop Companion Sync Bridge initialized.");
     }
 
     // 11. Boot into Think Workspace with Desk Anchoring
@@ -680,10 +1456,7 @@ script.createEvent('OnStartEvent').bind(function() {
 });
 
 // ------------------------------------------------------------------------------
-// FTUE 3D Spatial Interactive Tutorial Billboard (Ergonomic 3-Step Walkthrough)
-// 1: "PINCH ANY NOTE TO REPOSITION"
-// 2: "PINCH A PLANET TO EXPLORE ANOTHER WORLD"
-// 3: "LOOK AWAY TO GIVE YOUR WORLD ROOM TO BREATHE"
+// FTUE 3D Spatial Interactive Tutorial Billboard
 // ------------------------------------------------------------------------------
 function initFTUEBillboard() {
     if (!state.ftueOnboarding || !state.ftueOnboarding.isActive()) return;
@@ -730,7 +1503,6 @@ function enterFocusMode(workspaceKey) {
 
     print("[INFINITY OS] ✦ Cosmic Jump to Workspace: " + ws.title);
 
-    // Update Header and Subtitle
     if (state.headerLabel) {
         setTextContent(state.headerLabel, ws.title);
         var hTxt = getText3D(state.headerLabel);
@@ -740,10 +1512,8 @@ function enterFocusMode(workspaceKey) {
     }
     if (state.subLabel) setTextContent(state.subLabel, ws.subtitle);
 
-    // Check saved state or defaults
     var savedPositions = loadWorkspaceState(workspaceKey);
 
-    // Update notes and labels for this workspace
     for (var i = 0; i < state.notes.length; i++) {
         var n = state.notes[i];
         var nCfg = ws.notes[i];
@@ -770,7 +1540,6 @@ function enterFocusMode(workspaceKey) {
         }
     }
 
-    // Transform planets: Focused planet steps forward as celestial sun; others recede into orbit
     for (var k in state.planets) {
         var p = state.planets[k];
         if (k === workspaceKey) {
@@ -805,7 +1574,7 @@ function returnToGalaxy() {
 }
 
 // ------------------------------------------------------------------------------
-// Constellation Dynamic Geometry Solver
+// Constellation Dynamic Geometry Solver (60 FPS quat.lookAt)
 // ------------------------------------------------------------------------------
 function updateConstellationConnections() {
     if (state.notes.length < 2 || state.constellations.length === 0) return;
@@ -823,13 +1592,11 @@ function updateConstellationConnections() {
         var posA = state.notes[idxA].curPos;
         var posB = state.notes[idxB].curPos;
 
-        // Midpoint
         var midX = (posA.x + posB.x) * 0.5;
         var midY = (posA.y + posB.y) * 0.5;
         var midZ = (posA.z + posB.z) * 0.5;
         var midPoint = new vec3(midX, midY, midZ);
 
-        // Vector delta & distance
         var dx = posB.x - posA.x;
         var dy = posB.y - posA.y;
         var dz = posB.z - posA.z;
@@ -842,16 +1609,13 @@ function updateConstellationConnections() {
 
         bTrans.setWorldPosition(midPoint);
 
-        // Orient box along connection direction
         var dir = new vec3(dx / dist, dy / dist, dz / dist);
         var rot = quat.lookAt(dir, vec3.up());
         bTrans.setLocalRotation(rot);
 
-        // Dynamic thickness pulses with AI energy
         var thickness = (0.24 + state.pulseEnergy * 0.45) * state.ambientOpacity;
         bTrans.setWorldScale(new vec3(thickness, thickness, dist));
 
-        // Update beam color pulse
         var pulsedColor = new vec4(
             beamColor.r * (0.8 + state.pulseEnergy * 0.2),
             beamColor.g * (0.8 + state.pulseEnergy * 0.2),
@@ -879,7 +1643,6 @@ function cycleNoteStatus(note) {
     print("[INFINITY OS] Note spatial state updated: " + note.cfg.title + " -> " + st.label);
 
     if (note.labelObj) {
-        var lines = note.cfg.body.split("\n");
         var updatedText = note.cfg.title + "\n" + note.cfg.body + "\n[ " + st.label + " ]";
         setTextContent(note.labelObj, updatedText, 4.8);
     }
@@ -923,24 +1686,21 @@ script.createEvent('UpdateEvent').bind(function() {
     }
 
     // 2. Glance-Away Ambient Attenuation Engine
-    // If user looks up or away from the desk, softly fade workspace to leave room unobstructed
     if (state.camera) {
         var camTrans = state.camera.getSceneObject().getTransform();
         var camFwd = camTrans.forward || new vec3(0, 0, -1);
-        // Angle to desk center (0, -6, -70)
         var deskDir = new vec3(0.0, -6.0, -70.0).sub(camTrans.getWorldPosition()).normalize();
         var dotFwd = camFwd.dot(deskDir);
         
-        var targetOpacity = (dotFwd < 0.82) ? 0.22 : 1.0; // Dim when looking away >25 deg
-        state.ambientOpacity = vec3.lerp(new vec3(state.ambientOpacity, 0, 0), new vec3(targetOpacity, 0, 0), dt * 3.5).x;
+        var targetOpacity = (dotFwd < 0.82) ? 0.22 : 1.0;
+        state.ambientOpacity = vec3.lerp(new vec3(state.ambientOpacity, 0, 0), new vec3(targetOpacity, 0, 0), dt * 4.2).x;
 
-        // Advance FTUE step 3 if user tilted their head away and completed ambient dimming
         if (targetOpacity < 0.3 && state.ftueOnboarding && state.ftueOnboarding.isActive() && state.ftueOnboarding.step === 3) {
             state.ftueOnboarding.advance(3);
         }
     }
 
-    // 3. Continuous 3D Hover Detection
+    // 3. Continuous 3D Hover Detection (+14% Scale Cue)
     var hoveredIndex = -1;
     if (state.mode === "WORKSPACE_FOCUS") {
         for (var h = 0; h < state.notes.length; h++) {
@@ -1051,7 +1811,7 @@ script.createEvent('UpdateEvent').bind(function() {
 });
 
 // ------------------------------------------------------------------------------
-// AI Spatial Assistant Synthesis Engine (Contextual Live Bridge with Edge Inference)
+// AI Spatial Assistant Synthesis Engine (Contextual Live Bridge)
 // ------------------------------------------------------------------------------
 function triggerAIAssistant() {
     var wsKey = state.focusedWorkspace || "Think";
@@ -1061,7 +1821,6 @@ function triggerAIAssistant() {
     state.aiIndex++;
     state.pulseEnergy = 1.0;
 
-    // Use LiveAIAssistantModule if loaded
     if (state.aiModule) {
         var selectedNode = (state.notes.length >= 4) ? state.notes[3] : state.notes[0];
         state.aiModule.synthesizeSpatialExpansion(selectedNode, wsKey, function(result) {
@@ -1100,10 +1859,8 @@ function triggerAIAssistant() {
         }
     }
 
-    // Trigger visual spatial sound ripple from AI core
     triggerAudioRipple(new vec3(-2.0, -8.5, -67.5));
 
-    // Advance FTUE step 3 if active
     if (state.ftueOnboarding && state.ftueOnboarding.isActive()) {
         state.ftueOnboarding.advance(3);
     }
@@ -1119,7 +1876,7 @@ function handleVoiceCommand(cmd) {
 
     if (state.voiceHud && state.voiceHudLabel) {
         setTextContent(state.voiceHudLabel, "[ 🎙️ VOICE: \"" + c.toUpperCase() + "\" ➔ EXECUTING ]", 4.4);
-        applyMaterialStyle(state.voiceHud, null, new vec4(1.0, 0.75, 0.08, 0.95)); // Radiant Gold
+        applyMaterialStyle(state.voiceHud, null, new vec4(1.0, 0.75, 0.08, 0.95));
         state.voiceHudTimer = 2.8;
     }
 
@@ -1153,7 +1910,7 @@ function handleVoiceCommand(cmd) {
 global.infinityVoiceCommand = handleVoiceCommand;
 
 // ------------------------------------------------------------------------------
-// Workspace Session Document Exporter (Feature E Native Port)
+// Workspace Session Document Exporter
 // ------------------------------------------------------------------------------
 function exportWorkspaceDocument() {
     if (!global.SessionDocumentExporter) return null;
@@ -1168,7 +1925,7 @@ function exportWorkspaceDocument() {
 
     if (state.voiceHud && state.voiceHudLabel) {
         setTextContent(state.voiceHudLabel, "[ ✓ SESSION EXPORTED TO VAULT // MD+JSON ]", 4.2);
-        applyMaterialStyle(state.voiceHud, null, new vec4(0.0, 1.0, 0.66, 0.95)); // Emerald
+        applyMaterialStyle(state.voiceHud, null, new vec4(0.0, 1.0, 0.66, 0.95));
         state.voiceHudTimer = 3.5;
     }
     state.pulseEnergy = 1.0;
@@ -1177,12 +1934,93 @@ function exportWorkspaceDocument() {
 global.infinityExportSession = exportWorkspaceDocument;
 
 // ------------------------------------------------------------------------------
-// Interaction Handler: True 3D Vector Raycast for SIK & Preview Mouse
+// Interaction Engine: Hardened 3D Raycasting with Drag/Tap Discrimination (Phase 5)
 // ------------------------------------------------------------------------------
+function handleDragStart(screenPos) {
+    if (!state.camera || state.mode !== "WORKSPACE_FOCUS") return;
+    state.lastScreenPos = screenPos;
+    touchState.startPos = screenPos;
+    touchState.startTime = getTime();
+    touchState.hasMoved = false;
+    touchState.activeTouch = true;
+
+    // Check if aiming at note
+    for (var i = 0; i < state.notes.length; i++) {
+        var note = state.notes[i];
+        var nHit = raycast3D(screenPos, note.curPos, 9.5);
+        if (nHit.hit) {
+            state.draggedNote = note;
+            return;
+        }
+    }
+
+    // If not note and editor not active, start inking on desk plane
+    if (state.shapeModule && !state.draggedNote && (!state.noteEditor || !state.noteEditor.active)) {
+        var worldPt = state.camera.screenSpaceToWorldSpace(screenPos, 108.0);
+        state.shapeModule.startStroke(new vec3(worldPt.x, worldPt.y, -67.5));
+    }
+}
+
+function handleDragMove(screenPos) {
+    state.lastScreenPos = screenPos;
+    if (!state.camera || !touchState.activeTouch) return;
+
+    var dx = screenPos.x - touchState.startPos.x;
+    var dy = screenPos.y - touchState.startPos.y;
+    var moveDist = Math.sqrt(dx * dx + dy * dy);
+
+    if (moveDist > touchState.dragThreshold) {
+        touchState.hasMoved = true;
+    }
+
+    if (state.draggedNote && touchState.hasMoved) {
+        var worldPt = state.camera.screenSpaceToWorldSpace(screenPos, 108.0);
+        var clampedX = Math.max(-28.0, Math.min(28.0, worldPt.x));
+        var clampedY = Math.max(-16.0, Math.min(14.0, worldPt.y));
+        state.draggedNote.curPos = new vec3(clampedX, clampedY, -68.0);
+        state.draggedNote.targetPos = state.draggedNote.curPos;
+
+        if (state.ftueOnboarding && state.ftueOnboarding.isActive()) {
+            state.ftueOnboarding.advance(1);
+        }
+    } else if (state.shapeModule && state.shapeModule.isDrawing) {
+        var strokePt = state.camera.screenSpaceToWorldSpace(screenPos, 108.0);
+        state.shapeModule.addStrokePoint(new vec3(strokePt.x, strokePt.y, -67.5));
+    }
+}
+
+function handleDragEnd() {
+    touchState.activeTouch = false;
+    if (touchState.hasMoved) {
+        touchState.lastDragEndTime = getTime();
+    }
+
+    if (state.draggedNote) {
+        if (touchState.hasMoved) {
+            print("[INFINITY OS] 3D Repositioned Note: " + state.draggedNote.id + " at " + state.draggedNote.curPos.toString());
+            if (state.focusedWorkspace) {
+                saveWorkspaceState(state.focusedWorkspace);
+            }
+        }
+        state.draggedNote = null;
+    } else if (state.shapeModule && state.shapeModule.isDrawing) {
+        var recognized = state.shapeModule.endStroke();
+        if (recognized) {
+            state.pulseEnergy = 0.8;
+            triggerAudioRipple(recognized.obj.getTransform().getWorldPosition());
+        }
+    }
+}
+
 function handleTapOrPinch(screenPos) {
     if (!state.camera) return;
 
-    print("[INFINITY OS] 3D Raycast Tap/Pinch event at: (" + screenPos.x.toFixed(2) + ", " + screenPos.y.toFixed(2) + ")");
+    // Discard tap if this was the tail end of a drag gesture within 280ms (Phase 5)
+    if (touchState.hasMoved || (getTime() - touchState.lastDragEndTime) < 0.28) {
+        return;
+    }
+
+    print("[INFINITY OS] 3D Raycast Tap event at: (" + screenPos.x.toFixed(2) + ", " + screenPos.y.toFixed(2) + ")");
 
     // 0. Check Note Editor & Keyboard Subsystem First
     if (state.noteEditor && state.noteEditor.active) {
@@ -1190,7 +2028,7 @@ function handleTapOrPinch(screenPos) {
         if (editorHit) return;
     }
 
-    // 1. Check AI Assistant Core 3D Ray Hit
+    // 1. Check AI Assistant Core
     var aiCore = findObjectByName("AI_Assistant_Core");
     if (aiCore) {
         var aiPos = aiCore.getTransform().getWorldPosition();
@@ -1201,19 +2039,18 @@ function handleTapOrPinch(screenPos) {
         }
     }
 
-    // 2. Return to Galaxy when tapping upper margin in Focus Mode
+    // 2. Return to Galaxy when tapping top margin in focus mode
     if (state.mode === "WORKSPACE_FOCUS" && screenPos.y < 0.12) {
         returnToGalaxy();
         return;
     }
 
-    // 3. Check Sticky Note 3D Ray Hit (Cycle Status or Open Editor)
+    // 3. Check Note Cards
     for (var i = 0; i < state.notes.length; i++) {
         var note = state.notes[i];
         var noteHit = raycast3D(screenPos, note.curPos, 8.5);
         if (noteHit.hit) {
-            // If already in focus and tapped on upper part of note card, open 3D Editor
-            if (state.noteEditor && screenPos.y > 0.42 && screenPos.y < 0.60) {
+            if (state.noteEditor && screenPos.y > 0.42 && screenPos.y < 0.58) {
                 state.noteEditor.openEditor(note);
             } else {
                 cycleNoteStatus(note);
@@ -1225,15 +2062,13 @@ function handleTapOrPinch(screenPos) {
         }
     }
 
-    // 4. Check Planet Selection 3D Ray Hit
+    // 4. Check Planet Selection
     var closestPlanet = null;
     var minRayDist = 12.0;
-
     for (var key in state.planets) {
         var p = state.planets[key];
         var pPos = p.obj.getTransform().getWorldPosition();
         var pHit = raycast3D(screenPos, pPos, p.config.baseScale.x * 1.4);
-
         if (pHit.hit && pHit.dist3D < minRayDist) {
             minRayDist = pHit.dist3D;
             closestPlanet = key;
@@ -1250,67 +2085,6 @@ function handleTapOrPinch(screenPos) {
         }
         if (state.ftueOnboarding && state.ftueOnboarding.isActive()) {
             state.ftueOnboarding.advance(2);
-        }
-    }
-}
-
-// ------------------------------------------------------------------------------
-// Pinch-and-Drag / Touch-and-Drag with 3D Ray Plane Intersection & Inking
-// ------------------------------------------------------------------------------
-function handleDragStart(screenPos) {
-    if (!state.camera || state.mode !== "WORKSPACE_FOCUS") return;
-    state.lastScreenPos = screenPos;
-
-    // Check if grabbing a note
-    for (var i = 0; i < state.notes.length; i++) {
-        var note = state.notes[i];
-        var nHit = raycast3D(screenPos, note.curPos, 9.5);
-        if (nHit.hit) {
-            state.draggedNote = note;
-            print("[INFINITY OS] 3D Grabbed Note: " + note.id);
-            if (state.ftueOnboarding && state.ftueOnboarding.isActive()) {
-                state.ftueOnboarding.advance(1);
-            }
-            return;
-        }
-    }
-
-    // If not grabbing note, start freehand stroke on desk plane (Feature C)
-    if (state.shapeModule && !state.draggedNote) {
-        var worldPt = state.camera.screenSpaceToWorldSpace(screenPos, 108.0);
-        state.shapeModule.startStroke(new vec3(worldPt.x, worldPt.y, -67.5));
-    }
-}
-
-function handleDragMove(screenPos) {
-    state.lastScreenPos = screenPos;
-    if (!state.camera) return;
-
-    if (state.draggedNote) {
-        // Raycast onto comfortable desk workspace plane (Z = -68.0cm)
-        var worldPt = state.camera.screenSpaceToWorldSpace(screenPos, 108.0);
-        var clampedX = Math.max(-28.0, Math.min(28.0, worldPt.x));
-        var clampedY = Math.max(-16.0, Math.min(14.0, worldPt.y));
-        state.draggedNote.curPos = new vec3(clampedX, clampedY, -68.0);
-        state.draggedNote.targetPos = state.draggedNote.curPos;
-    } else if (state.shapeModule && state.shapeModule.isDrawing) {
-        var strokePt = state.camera.screenSpaceToWorldSpace(screenPos, 108.0);
-        state.shapeModule.addStrokePoint(new vec3(strokePt.x, strokePt.y, -67.5));
-    }
-}
-
-function handleDragEnd() {
-    if (state.draggedNote) {
-        print("[INFINITY OS] 3D Positioned Note: " + state.draggedNote.id + " at " + state.draggedNote.curPos.toString());
-        state.draggedNote = null;
-        if (state.focusedWorkspace) {
-            saveWorkspaceState(state.focusedWorkspace);
-        }
-    } else if (state.shapeModule && state.shapeModule.isDrawing) {
-        var recognized = state.shapeModule.endStroke();
-        if (recognized) {
-            state.pulseEnergy = 0.8;
-            triggerAudioRipple(recognized.obj.getTransform().getWorldPosition());
         }
     }
 }

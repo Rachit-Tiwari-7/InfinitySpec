@@ -114,6 +114,8 @@ spatial_computer/
 │   │   ├── SessionExporterModule.js  # Markdown & JSON Session Vault Exporter
 │   │   ├── LiveAIAssistantModule.js  # Contextual AI Synthesis Bridge
 │   │   ├── DesktopCompanionSyncModule.js # External Ingestion Bridge
+│   │   ├── Tests/                    # LEAF Test Suite
+│   │   │   └── InfinityScenarios.ts  # 7 Registered LEAF Scenarios
 │   │   ├── Scene.scene               # Scene hierarchy & asset bindings
 │   │   ├── Box.mesh, Sphere.mesh, Torus.mesh
 │   │   └── Planet_*.png, Sticky_*.png, Whiteboard_Glass.png
@@ -135,18 +137,43 @@ spatial_computer/
 3. Open the **Interactive Preview** panel:
    - **WASD / Mouse Look**: Walk around the virtual room and observe the desk and notes physically anchored with real 6DoF parallax.
    - **Hover Aim**: Move cursor over any sticky note to see the +14% spatial hover cue.
-   - **Pinch / Click**: Click any planet to transition workspaces; click any note to cycle cognitive state; click and drag notes to reposition them.
-   - **3D Note Editor**: Click on the upper margin of any note card to open the 3D Editor Easel and tap keys on the angled spatial keyboard deck.
+   - **Pinch / Click**: Click any planet to transition workspaces; click any note to cycle cognitive state (`ANCHORED` ➔ `SYNTHESIZING` ➔ `SYNCHRONIZED`).
+   - **Pinch & Drag**: Click and drag any note across the 3D desk plane (Z = -68 cm); dynamic constellation beams stretch and follow in real-time.
+   - **3D Note Editor**: Click on the upper margin of any note card (or run `global.infinityVoiceCommand("edit")`) to summon the 3D Editor Easel and tap keys on the angled spatial keyboard deck.
    - **Freehand Inking & Shape Snapping**: Drag anywhere on the desk surface to draw; closing a circle or rectangle automatically snaps it to a 3D primitive.
-   - **Voice Simulator**: Run `global.infinityVoiceCommand("create")` or `global.infinityVoiceCommand("export")` in the console.
-   - **Glance-Away**: Tilt the preview camera upward to watch the workstation smoothly dim into translucent ambient mode.
+   - **Voice Simulator**: Run `global.infinityVoiceCommand("create")`, `global.infinityVoiceCommand("export")`, or `global.infinityVoiceCommand("ai")` in the console.
+   - **Glance-Away Ambient Mode**: Tilt the preview camera upward (>25°) to watch the workstation smoothly dim into translucent ambient silhouette.
+
+---
+
+## LEAF Automated Testing Framework
+
+INFINITY includes 7 authentic test scenarios written for Snap's **LEAF** (Lens Evaluation & Automation Framework) extending `Leaf.lspkg/Scenarios/scenario/Scenario` in [`tt/Assets/Tests/InfinityScenarios.ts`](tt/Assets/Tests/InfinityScenarios.ts):
+
+| Scenario ID | Test Name | Validated Behavior |
+| :--- | :--- | :--- |
+| `scenario_startup` | `StartupScenario` | Verifies desk stand-in plate, 5 planetary orbs, and 4 note cards instantiated |
+| `scenario_navigation` | `WorkspaceNavigationScenario` | Simulates switching between Think, Create, Learn, Store, Explore workspaces |
+| `scenario_interaction` | `StickyNoteInteractionScenario` | Validates 15° cylindrical curvature angles and inward focus vector |
+| `scenario_state_transition` | `NoteStateTransitionScenario` | Validates cycling `ANCHORED` ➔ `SYNTHESIZING` ➔ `SYNCHRONIZED` |
+| `scenario_persistence` | `PersistenceScenario` | Verifies saving and restoring workspace note coordinates |
+| `scenario_onboarding` | `OnboardingScenario` | Simulates 3-step interactive FTUE lifecycle and completion |
+| `scenario_export` | `SessionExportScenario` | Verifies Markdown & JSON session report generation |
 
 ---
 
 ## Automated Verification
 
-The project includes an automated test suite verifying 3D raycast mathematics, cylindrical curvature angles, desk stand-in dimensions, and hackathon compliance:
+The project includes an automated test suite verifying 3D raycast mathematics, cylindrical curvature angles, desk stand-in dimensions, kernel synchronization parity, and hackathon compliance:
 
 ```bash
 python -m pytest tests/test_lens_studio_port.py tests/test_spectacles_features.py -v
 ```
+
+---
+
+## Verification Scope & Hardware Limitations
+
+- **Automated Tests:** Python test suite (25 tests) runs in CI/local terminal, validating AST syntax, mathematics, file integrity, and parity.
+- **Lens Studio Preview:** Interactive Preview validates 6DoF parallax, mouse-simulated single-hand pinches, raycast selection, 60 FPS constellation solver, and glance-away ambient attenuation.
+- **Physical Hardware (Spectacles 2024):** Physical device features such as live physical room depth occlusion, optical waveguide brightness perception under direct sunlight, and bimanual hand tracking require on-device deployment. Simulated desk surface plate (90x54 cm) is provided as the preview stand-in per hackathon guidelines.

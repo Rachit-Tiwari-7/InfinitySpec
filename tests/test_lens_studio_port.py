@@ -245,3 +245,56 @@ def test_voice_hud_indicator_lifecycle():
     assert "Label_Voice_HUD" in code
     assert "state.voiceHudTimer" in code
     assert "VOICE:" in code
+
+
+def test_kernel_synchronization_parity():
+    """Verify that InfinityOSKernel.js and Untitled JavaScript Component.js are 100% byte-identical."""
+    k1 = os.path.join(TT_DIR, "Assets", "InfinityOSKernel.js")
+    k2 = os.path.join(TT_DIR, "Assets", "Untitled JavaScript Component.js")
+    assert os.path.exists(k1), f"Missing {k1}"
+    assert os.path.exists(k2), f"Missing {k2}"
+
+    with open(k1, "rb") as f1, open(k2, "rb") as f2:
+        bytes1 = f1.read()
+        bytes2 = f2.read()
+
+    assert bytes1 == bytes2, "Kernel divergence detected! InfinityOSKernel.js and Untitled JavaScript Component.js must be identical."
+
+
+def test_leaf_test_scenarios_authored():
+    """Verify all 7 genuine LEAF test scenarios and ScenarioIndex are authored in TypeScript."""
+    scenarios_path = os.path.join(TT_DIR, "Assets", "Tests", "InfinityScenarios.ts")
+    assert os.path.exists(scenarios_path), f"Missing LEAF test file: {scenarios_path}"
+
+    with open(scenarios_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    expected_scenarios = [
+        "StartupScenario",
+        "WorkspaceNavigationScenario",
+        "StickyNoteInteractionScenario",
+        "NoteStateTransitionScenario",
+        "PersistenceScenario",
+        "OnboardingScenario",
+        "SessionExportScenario",
+        "ScenarioIndex"
+    ]
+    for sc in expected_scenarios:
+        assert sc in code, f"Missing scenario {sc} in LEAF test suite"
+
+    assert "@scenariosIndex" in code
+    assert "scenario_startup" in code
+    assert "scenario_export" in code
+
+
+def test_interaction_drag_tap_discrimination():
+    """Verify touch movement threshold and drag-vs-tap rejection logic (Phase 5)."""
+    js_path = os.path.join(TT_DIR, "Assets", "Untitled JavaScript Component.js")
+    with open(js_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "touchState" in code
+    assert "dragThreshold" in code
+    assert "lastDragEndTime" in code
+    assert "hasMoved" in code
+
