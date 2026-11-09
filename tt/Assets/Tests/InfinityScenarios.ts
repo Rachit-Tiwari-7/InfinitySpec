@@ -63,6 +63,10 @@ export class StartupScenario extends Scenario {
             if (!nObj) throw new Error(`FAIL: Sticky note card ${n} not instantiated.`);
         }
 
+        // 5. Verify Physical Textbook Reference Marker (Shared Perspective Anchor)
+        const textbook = findObject("Desk_Textbook_Reference_Marker");
+        if (!textbook) throw new Error("FAIL: Desk_Textbook_Reference_Marker missing from scene.");
+
         print("[LEAF TEST 1/10] ✓ StartupScenario PASSED: All 6DoF core objects verified.");
     }
 }

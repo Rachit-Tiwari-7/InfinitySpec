@@ -16,8 +16,46 @@
 // @input Asset.Mesh torusMesh
 // @input Asset.Material pbrMaterial
 // @input Asset.Material textMaterial
+// @input Asset.AudioTrackAsset chimeAudio
 
 print("[INFINITY] Booting Spatial Study Copilot & Ambient Knowledge Canvas...");
+
+// ------------------------------------------------------------------------------
+// Native Spectacles Interaction Kit (SIK) & Audio Feedback Bridges
+// ------------------------------------------------------------------------------
+var audioPlayer = null;
+function initAudioFeedbackSystem() {
+    try {
+        var audioObj = getOrCreateObject("Infinity_Spatial_Audio_Player", null, null);
+        audioPlayer = audioObj.createComponent("Component.AudioComponent");
+    } catch(e) {}
+}
+
+function attachSIKInteractable(sceneObj, onTriggerCallback, onHoverCallback) {
+    if (!sceneObj) return;
+    try {
+        var interactable = sceneObj.createComponent("InteractionKit:Interactable") ||
+                           sceneObj.createComponent("Interactable");
+        if (interactable && interactable.onTriggerStart) {
+            interactable.onTriggerStart.add(function(e) {
+                if (typeof onTriggerCallback === "function") onTriggerCallback(e);
+            });
+            if (interactable.onHoverEnter && typeof onHoverCallback === "function") {
+                interactable.onHoverEnter.add(function(e) { onHoverCallback(true, e); });
+                interactable.onHoverExit.add(function(e) { onHoverCallback(false, e); });
+            }
+        }
+    } catch(e) {}
+    try {
+        if (!sceneObj.getComponent("Physics.ColliderComponent")) {
+            var col = sceneObj.createComponent("Physics.ColliderComponent");
+            if (col && typeof Shape !== "undefined" && Shape.createBoxShape) {
+                col.shape = Shape.createBoxShape();
+            }
+        }
+    } catch(e) {}
+}
+
 
 // ------------------------------------------------------------------------------
 // Spatial Cognitive States (Replacing 2D Kanban with Spatial Computing States)
@@ -716,6 +754,7 @@ NoteEditorKeyboard.prototype.initUI = function() {
     }
 
     this.setVisible(false);
+    this.active = false;
 };
 
 NoteEditorKeyboard.prototype.applyColor = function(obj, color) {
@@ -1162,6 +1201,12 @@ SurfaceTrackingManager.prototype.updateSurfacePositions = function() {
     if (state.deskTrim) {
         state.deskTrim.getTransform().setWorldPosition(new vec3(0.0, this.calibratedHeight + 0.7, -70.0));
     }
+    if (state.textbookMarker) {
+        state.textbookMarker.getTransform().setWorldPosition(new vec3(-18.0, this.calibratedHeight + 0.8, -64.0));
+    }
+    if (state.textbookLabel) {
+        state.textbookLabel.getTransform().setWorldPosition(new vec3(-18.0, this.calibratedHeight + 1.2, -64.0));
+    }
     if (state.deskCorners) {
         for (var i = 0; i < state.deskCorners.length; i++) {
             var c = state.deskCorners[i];
@@ -1482,6 +1527,17 @@ script.createEvent('OnStartEvent').bind(function() {
     state.deskTrim.getTransform().setWorldScale(new vec3(91.2, 0.25, 55.2));
     applyMaterialStyle(state.deskTrim, null, new vec4(1.0, 0.75, 0.08, 0.40));
 
+    // 2bb. Stand-in Reference Marker for Physical Study Textbook (Anchor for Shared Perspective)
+    state.textbookMarker = getOrCreateObject("Desk_Textbook_Reference_Marker", script.boxMesh, script.pbrMaterial);
+    state.textbookMarker.getTransform().setWorldPosition(new vec3(-18.0, -17.2, -64.0));
+    state.textbookMarker.getTransform().setWorldScale(new vec3(22.0, 0.5, 16.0));
+    state.textbookMarker.getTransform().setLocalRotation(quat.fromEulerAngles(0, -6.0 * Math.PI / 180.0, 0));
+    applyMaterialStyle(state.textbookMarker, null, new vec4(0.05, 0.09, 0.18, 0.82));
+
+    state.textbookLabel = getOrCreateText3D("Label_Textbook_Reference", "[ PHYSICAL TEXTBOOK / WORKBOOK ANCHOR ]", 2.6, new vec4(0.0, 0.94, 1.0, 0.85));
+    state.textbookLabel.getTransform().setWorldPosition(new vec3(-18.0, -16.8, -64.0));
+    state.textbookLabel.getTransform().setLocalRotation(quat.fromEulerAngles(-80.0 * Math.PI / 180.0, -6.0 * Math.PI / 180.0, 0));
+
     // 2b. Table Height Calibration & Feature Controls (Physical Grounding HUD)
     var deskButtons = [
         { id: "Button_Desk_Up", label: "[ ▲ +5cm ]", x: -16.0, color: new vec4(0.0, 0.94, 1.0, 0.92) },
@@ -1684,6 +1740,7 @@ script.createEvent('OnStartEvent').bind(function() {
     // 11. Boot into Think Workspace with Desk Anchoring
     enterFocusMode("Think");
     print("[INFINITY OS] Cosmic Spatial Desktop online. Ready for Spectacles SIK Gaze & Pinch!");
+    initAudioFeedbackSystem();
 });
 
 // ------------------------------------------------------------------------------
@@ -1773,14 +1830,9 @@ function enterFocusMode(workspaceKey) {
 
     for (var k in state.planets) {
         var p = state.planets[k];
-        if (k === workspaceKey) {
-            p.targetPos = new vec3(0.0, 17.5, -74.0);
-            p.targetScale = new vec3(8.0, 8.0, 8.0);
-        } else {
-            var orig = p.config.basePos;
-            p.targetPos = new vec3(orig.x * 1.35, orig.y * 1.25 + 6.0, orig.z - 40.0);
-            p.targetScale = new vec3(p.config.baseScale.x * 0.45, p.config.baseScale.y * 0.45, p.config.baseScale.z * 0.45);
-        }
+        // In deep study focus mode, completely recede / hide celestial dock to eliminate 46° FOV cockpit clutter
+        p.targetScale = new vec3(0.01, 0.01, 0.01);
+        p.targetPos = new vec3(p.config.basePos.x, p.config.basePos.y + 35.0, p.config.basePos.z - 50.0);
     }
 
     state.pulseEnergy = 1.0;
@@ -1890,6 +1942,15 @@ function cycleNoteStatus(note) {
 // Procedural Spatial Audio Ripple Visualizer
 // ------------------------------------------------------------------------------
 function triggerAudioRipple(centerPos) {
+    if (audioPlayer) {
+        try {
+            if (script.chimeAudio) {
+                audioPlayer.audioTrack = script.chimeAudio;
+            }
+            audioPlayer.getSceneObject().getTransform().setWorldPosition(centerPos);
+            audioPlayer.play(1);
+        } catch(e) {}
+    }
     if (!state.audioRipple) return;
     state.audioRipple.getTransform().setWorldPosition(centerPos);
     state.audioRippleScale = 0.2;
@@ -1924,7 +1985,7 @@ script.createEvent('UpdateEvent').bind(function() {
         var dotFwd = camFwd.dot(deskDir);
         
         var targetOpacity = (dotFwd < 0.82) ? 0.22 : 1.0;
-        state.ambientOpacity = vec3.lerp(new vec3(state.ambientOpacity, 0, 0), new vec3(targetOpacity, 0, 0), dt * 4.2).x;
+        state.ambientOpacity = vec3.lerp(new vec3(state.ambientOpacity, 0, 0), new vec3(targetOpacity, 0, 0), dt * 2.8).x;
 
         if (targetOpacity < 0.3 && state.ftueOnboarding && state.ftueOnboarding.isActive() && state.ftueOnboarding.step === 3) {
             state.ftueOnboarding.advance(3);
@@ -2168,8 +2229,9 @@ function handleVoiceCommand(cmd) {
     } else if (c.indexOf("export") !== -1 || c.indexOf("save") !== -1) {
         exportWorkspaceDocument();
     } else if (c.indexOf("keyboard") !== -1 || c.indexOf("edit") !== -1) {
-        if (state.noteEditor && state.notes.length > 0) {
-            state.noteEditor.openEditor(state.notes[0]);
+        if (state.voiceHud && state.voiceHudLabel) {
+            setTextContent(state.voiceHudLabel, "[ 🎙️ HANDS-FREE: USE VOICE DICTATE TO ADD NOTES ]", 4.0);
+            state.voiceHudTimer = 3.0;
         }
     }
 }
@@ -2452,16 +2514,13 @@ function handleTapOrPinch(screenPos) {
         return;
     }
 
-    // 3. Check Note Cards
+    // 3. Check Note Cards - Tapping cycles cognitive state cleanly without opening bulky virtual keyboard
     for (var i = 0; i < state.notes.length; i++) {
         var note = state.notes[i];
         var noteHit = raycast3D(screenPos, note.curPos, 8.5);
         if (noteHit.hit) {
-            if (state.noteEditor && screenPos.y > 0.42 && screenPos.y < 0.58) {
-                state.noteEditor.openEditor(note);
-            } else {
-                cycleNoteStatus(note);
-            }
+            cycleNoteStatus(note);
+            triggerAudioRipple(note.curPos);
             if (state.ftueOnboarding && state.ftueOnboarding.isActive()) {
                 state.ftueOnboarding.advance(2);
             }
