@@ -1544,12 +1544,20 @@ var state = {
     exportModalSyncBtn: null
 };
 
-// Touch / Tap Discrimination State (Phase 5)
+// Touch / Tap Discrimination State (Enhanced with Obsidiar Kinematics)
+var TAP_MAX_SEC = 0.35;
+var DRAG_THRESHOLD_CM = 2.0;
+var RENDER_ORDER_LABEL = 998;
+var RENDER_ORDER_CARD = 999;
+var RENDER_ORDER_TEXT = 1000;
+
 var touchState = {
     startPos: new vec2(0, 0),
     startTime: 0,
     hasMoved: false,
     dragThreshold: 0.02, // 2% screen distance threshold
+    tapMaxSec: TAP_MAX_SEC,
+    dragThresholdCm: DRAG_THRESHOLD_CM,
     lastDragEndTime: 0,
     activeTouch: false
 };
@@ -1588,15 +1596,23 @@ function setTextContent(obj, str, size) {
     }
 }
 
-function applyMaterialStyle(obj, texAsset, color) {
+function applyMaterialStyle(obj, texAsset, color, renderOrder, disableDepthTest) {
     if (!obj) return;
     var visual = obj.getComponent("Component.RenderMeshVisual") || obj.getComponent("RenderMeshVisual");
-    if (visual && visual.mainPass) {
-        if (texAsset) {
-            visual.mainPass.baseTex = texAsset;
+    if (visual) {
+        if (renderOrder !== undefined && typeof visual.setRenderOrder === "function") {
+            visual.setRenderOrder(renderOrder);
         }
-        if (color && visual.mainPass.baseColor) {
-            visual.mainPass.baseColor = color;
+        if (visual.mainPass) {
+            if (texAsset) {
+                visual.mainPass.baseTex = texAsset;
+            }
+            if (color && visual.mainPass.baseColor) {
+                visual.mainPass.baseColor = color;
+            }
+            if (disableDepthTest) {
+                visual.mainPass.depthTest = false;
+            }
         }
     }
 }
@@ -1618,13 +1634,20 @@ function getOrCreateObject(name, meshAsset, matAsset) {
     return obj;
 }
 
-function getOrCreateText3D(name, defaultText, size, color) {
+function getOrCreateText3D(name, defaultText, size, color, renderOrder, disableDepthTest) {
     var obj = findObjectByName(name);
     if (!obj) {
         obj = global.scene.createSceneObject(name);
         var txt = obj.createComponent("Component.Text3D");
         txt.text = defaultText || "";
         if (size) txt.size = size;
+        if (renderOrder !== undefined && typeof txt.setRenderOrder === "function") {
+            txt.setRenderOrder(renderOrder);
+        }
+        if (disableDepthTest) {
+            if (typeof txt.depthTest === "boolean") txt.depthTest = false;
+            if (txt.mainPass) txt.mainPass.depthTest = false;
+        }
         if (color && txt.mainPass && txt.mainPass.baseColor) {
             txt.mainPass.baseColor = color;
         }
@@ -1857,7 +1880,7 @@ script.createEvent('OnStartEvent').bind(function() {
 
         var st = SPATIAL_STATES[nCfg.status] || SPATIAL_STATES["ANCHORED"];
         var cardText = nCfg.title + "\n" + nCfg.body + "\n[ " + st.label + " ]";
-        var lblObj = getOrCreateText3D(nCfg.labelId, cardText, 4.8, new vec4(1.0, 1.0, 1.0, 1.0));
+        var lblObj = getOrCreateText3D(nCfg.labelId, cardText, 4.8, new vec4(1.0, 1.0, 1.0, 1.0), RENDER_ORDER_TEXT, true);
 
         nObj.getTransform().setWorldScale(new vec3(13.2, 8.2, 0.5));
         nObj.getTransform().setWorldPosition(nCfg.basePos);
@@ -1867,7 +1890,7 @@ script.createEvent('OnStartEvent').bind(function() {
         nObj.getTransform().setLocalRotation(quat.fromEulerAngles(initRotX, initRotY, 0.0));
 
         var noteTex = script[GALAXY_PLANET_CONFIGS["Planet_" + state.focusedWorkspace].texProp];
-        applyMaterialStyle(nObj, noteTex, new vec4(0.08, 0.12, 0.22, 0.94));
+        applyMaterialStyle(nObj, noteTex, new vec4(0.08, 0.12, 0.22, 0.94), RENDER_ORDER_CARD, true);
 
         lblObj.getTransform().setWorldPosition(new vec3(nCfg.basePos.x, nCfg.basePos.y, nCfg.basePos.z + 0.8));
         lblObj.getTransform().setLocalRotation(quat.fromEulerAngles(initRotX, initRotY, 0.0));
@@ -2091,6 +2114,27 @@ function returnToGalaxy() {
         var p = state.planets[k];
         p.targetPos = p.config.basePos;
         p.targetScale = p.config.baseScale;
+    }
+
+    // Adapt note positions into 3D Constellation Knowledge Graph (Obsidiar Integration)
+    if (typeof global.constellationSolveLayout === "function") {
+        try {
+            var graphNodes = [];
+            for (var ni = 0; ni < state.notes.length; ni++) {
+                var noteObj = state.notes[ni];
+                graphNodes.push({
+                    id: noteObj.id,
+                    wordCount: (noteObj.cfg && noteObj.cfg.body) ? noteObj.cfg.body.length : 20,
+                    links: [(ni + 1) % state.notes.length + ""]
+                });
+            }
+            var solved = global.constellationSolveLayout(graphNodes, 55.0);
+            for (var si = 0; si < solved.length && si < state.notes.length; si++) {
+                state.notes[si].targetPos = solved[si].position;
+            }
+        } catch(e) {
+            print("[INFINITY OS] Constellation solve error: " + e);
+        }
     }
 }
 
@@ -2805,17 +2849,20 @@ function handleTapOrPinch(screenPos) {
         return;
     }
 
-    // 3. Check Note Cards - Tapping cycles cognitive state cleanly without opening bulky virtual keyboard
-    for (var i = 0; i < state.notes.length; i++) {
-        var note = state.notes[i];
-        var noteHit = raycast3D(screenPos, note.curPos, 8.5);
-        if (noteHit.hit) {
-            cycleNoteStatus(note);
-            triggerAudioRipple(note.curPos);
-            if (state.ftueOnboarding && state.ftueOnboarding.isActive()) {
-                state.ftueOnboarding.advance(2);
+    // 3. Check Note Cards - Tapping cycles cognitive state cleanly (guarded by tap vs drag discrimination)
+    var isRecentDrag = (getTime() - touchState.lastDragEndTime) < 0.15;
+    if (!isRecentDrag) {
+        for (var i = 0; i < state.notes.length; i++) {
+            var note = state.notes[i];
+            var noteHit = raycast3D(screenPos, note.curPos, 8.5);
+            if (noteHit.hit) {
+                cycleNoteStatus(note);
+                triggerAudioRipple(note.curPos);
+                if (state.ftueOnboarding && state.ftueOnboarding.isActive()) {
+                    state.ftueOnboarding.advance(2);
+                }
+                return;
             }
-            return;
         }
     }
 

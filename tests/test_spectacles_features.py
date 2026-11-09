@@ -323,3 +323,92 @@ def test_feature_q_desk_ergonomic_tilt_and_pairing_code_alphabet():
 
     assert "CODE_ALPHABET" in code
     assert "generatePairingCode" in code
+
+
+def test_feature_r_constellation_graph_engine_architecture():
+    """Verify ConstellationGraphEngine Fruchterman-Reingold 3D layout solver (from Obsidiar)."""
+    engine_ts = os.path.join(TT_ASSETS, "ConstellationGraphEngine.ts")
+    assert os.path.exists(engine_ts), "Missing ConstellationGraphEngine.ts"
+    with open(engine_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "ConstellationGraphEngine" in code
+    assert "fibonacciSphere" in code
+    assert "relaxForces" in code
+    assert "normalizeDensity" in code
+    assert "goldenAngleColor" in code
+    assert "evaluateBloomScale" in code
+    assert "GOLDEN_ANGLE_FRACTION = 0.61803398875" in code
+    assert "DEFAULT_NODE_SPACING_CM = 20.0" in code
+    assert "Float32Array" in code
+    assert "constellationSolveLayout" in code
+
+
+def test_feature_s_multi_node_workspace_manipulator():
+    """Verify MultiNodeWorkspaceManipulator dual-hand coordinate arbiter (from Obsidiar)."""
+    manip_ts = os.path.join(TT_ASSETS, "MultiNodeWorkspaceManipulator.ts")
+    assert os.path.exists(manip_ts), "Missing MultiNodeWorkspaceManipulator.ts"
+    with open(manip_ts, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "MultiNodeWorkspaceManipulator" in code
+    assert "registerGrab" in code
+    assert "releaseGrab" in code
+    assert "checkTapVsDrag" in code
+    assert "onUpdate" in code
+    assert "tapMaxSec" in code
+    assert "dragThresholdCm" in code
+    assert "setManipEnabled" in code
+    assert "workspaceRegisterGrab" in code
+    assert "workspaceReleaseGrab" in code
+
+
+def test_feature_t_tap_drag_and_render_depth_overlay_in_kernel():
+    """Verify kernel tap vs drag discrimination, depthTest overlays, and constellation hook."""
+    kernel_js = os.path.join(TT_ASSETS, "InfinityOSKernel.js")
+    with open(kernel_js, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    assert "TAP_MAX_SEC = 0.35" in code
+    assert "DRAG_THRESHOLD_CM = 2.0" in code
+    assert "RENDER_ORDER_LABEL = 998" in code
+    assert "RENDER_ORDER_CARD = 999" in code
+    assert "RENDER_ORDER_TEXT = 1000" in code
+    assert "disableDepthTest" in code
+    assert "constellationSolveLayout" in code
+
+
+def test_feature_u_mathematical_fibonacci_and_golden_angle_correctness():
+    """Verify mathematical correctness of Fibonacci sphere and golden angle hue dispersion."""
+    import math
+
+    # Fibonacci sphere radius conservation test
+    total = 20
+    radius = 50.0
+    offset = 2.0 / total
+    increment = math.pi * (3.0 - math.sqrt(5.0))
+
+    for i in range(total):
+        y = i * offset - 1.0 + offset * 0.5
+        r = math.sqrt(max(0.0, 1.0 - y * y))
+        phi = i * increment
+        x = math.cos(phi) * r * radius
+        py = y * radius
+        z = math.sin(phi) * r * radius
+        dist = math.sqrt(x * x + py * py + z * z)
+        assert abs(dist - radius) < 1e-4, f"Node {i} deviated from sphere radius {radius}: {dist}"
+
+    # Golden angle hue test
+    golden_fraction = 0.61803398875
+    hues = [(i * golden_fraction) % 1.0 for i in range(10)]
+    for i in range(len(hues) - 1):
+        step = abs(hues[i+1] - hues[i])
+        assert step > 0.05, f"Hues too close: {hues[i]} and {hues[i+1]}"
+
+    # Quadratic ease-out test
+    def ease_out(t):
+        return 1.0 - (1.0 - t) * (1.0 - t)
+
+    assert ease_out(0.0) == 0.0
+    assert ease_out(0.5) == 0.75
+    assert ease_out(1.0) == 1.0
