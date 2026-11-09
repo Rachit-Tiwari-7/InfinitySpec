@@ -191,7 +191,7 @@
     []
   Name: InfinityKernel
   Enabled: true
-  ScriptAsset: !<reference> 0559680b-0102-4aef-b1ed-1d3bf45bb01f
+  ScriptAsset: !<reference> a87d12f4-7128-4ce6-91d1-678239e248b1
   ScriptInputsDefault:
     {}
   ScriptTypesDefault:

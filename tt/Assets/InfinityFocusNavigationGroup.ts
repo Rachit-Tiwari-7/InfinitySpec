@@ -13,7 +13,7 @@
  * Lens Studio 5.24+ / SIK 0.14.0+ / TypeScript.
  */
 
-import { Interactable } from "SpectaclesInteractionKit.lspkg/Components/Interaction/Interactable/Interactable";
+import { Interactable } from "InteractionKit.lspkg/Components/Interaction/Interactable/Interactable";
 
 export const NO_FOCUS_INDEX = -1;
 

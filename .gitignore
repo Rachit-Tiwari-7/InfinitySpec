@@ -44,6 +44,11 @@ serve.py
 README_QUEST.md
 requirements.txt
 INFINITY_*.md
+!INFINITY_FULL_SYSTEM_AUDIT.md
+!INFINITY_BUG_TRACKER.md
+!INFINITY_ARCHITECTURE.md
+!INFINITY_TEST_REPORT.md
+!INFINITY_CHANGELOG.md
 
 # Non-Spectacles Tests (Preserving only Spectacles Lens Studio test suite)
 tests/test_ar_workspace_unified.py

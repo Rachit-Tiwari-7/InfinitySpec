@@ -81,9 +81,23 @@ export class WristCompanionDock extends BaseScriptComponent {
   }
 
   private resolveCamera(): void {
-    const cam = (global as any).scene.getCamera ? (global as any).scene.getCamera() : null;
-    if (cam && cam.getSceneObject) {
-      this.cameraObj = cam.getSceneObject();
+    if ((globalThis as any).findObjectByName) {
+      const camObj = (globalThis as any).findObjectByName("Camera Object") || (globalThis as any).findObjectByName("Camera");
+      if (camObj) {
+        this.cameraObj = camObj;
+        return;
+      }
+    }
+    const scene = (global as any).scene;
+    if (scene && typeof scene.getRootObjectsCount === "function") {
+      const count = scene.getRootObjectsCount();
+      for (let i = 0; i < count; i++) {
+        const root = scene.getRootObject(i);
+        if (root && (root.name === "Camera Object" || root.name === "Camera")) {
+          this.cameraObj = root;
+          return;
+        }
+      }
     }
   }
 

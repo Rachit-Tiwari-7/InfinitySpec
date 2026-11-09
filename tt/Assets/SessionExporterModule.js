@@ -27,7 +27,8 @@ SessionDocumentExporter.exportSessionDocument = function(sessionData) {
             var n = notes[i];
             var isSync = (n.status === "SYNCHRONIZED");
             var check = isSync ? "[x]" : "[ ]";
-            md += "### " + (i + 1) + ". " + check + " " + (n.title || "Untitled Note") + " `[" + (n.status || "ANCHORED") + "]`\n";
+            var noteTitle = n.title || (n.cfg && n.cfg.title) || "Untitled Note";
+            md += "### " + (i + 1) + ". " + check + " " + noteTitle + " `[" + (n.status || "ANCHORED") + "]`\n";
             md += "* **Position (3D):** `(" + n.curPos.x.toFixed(1) + ", " + n.curPos.y.toFixed(1) + ", " + n.curPos.z.toFixed(1) + ") cm`\n";
             if (n.cfg && n.cfg.body) {
                 var lines = n.cfg.body.split("\n");
@@ -47,7 +48,11 @@ SessionDocumentExporter.exportSessionDocument = function(sessionData) {
     } else {
         for (var s = 0; s < shapes.length; s++) {
             var sh = shapes[s];
-            md += "* **Shape #" + (s + 1) + ":** `" + sh.type.toUpperCase() + "` at `(" + sh.cx.toFixed(1) + ", " + sh.cy.toFixed(1) + ")` | Dims: `" + sh.width.toFixed(1) + " x " + sh.height.toFixed(1) + "`\n";
+            var w = (sh.width !== undefined) ? sh.width : ((sh.r !== undefined) ? sh.r * 2 : (sh.length || 0));
+            var h = (sh.height !== undefined) ? sh.height : ((sh.r !== undefined) ? sh.r * 2 : (sh.length || 0));
+            var cx = (sh.cx !== undefined) ? sh.cx : 0;
+            var cy = (sh.cy !== undefined) ? sh.cy : 0;
+            md += "* **Shape #" + (s + 1) + ":** `" + sh.type.toUpperCase() + "` at `(" + cx.toFixed(1) + ", " + cy.toFixed(1) + ")` | Dims: `" + w.toFixed(1) + " x " + h.toFixed(1) + "`\n";
         }
         md += "\n";
     }
@@ -75,8 +80,11 @@ SessionDocumentExporter.exportSessionDocument = function(sessionData) {
     return {
         key: exportKey,
         content: md,
+        markdown: md,
         noteCount: notes.length,
-        shapeCount: shapes.length
+        rawNotesCount: notes.length,
+        shapeCount: shapes.length,
+        rawShapesCount: shapes.length
     };
 };
 

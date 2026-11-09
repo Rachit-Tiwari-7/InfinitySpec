@@ -82,20 +82,51 @@ ShapeRecognizer.prototype.recognize = function(points) {
         }
 
         // ----------------------------------------------------------------------
-        // B. Rectangle / Box Detection
+        // B. Rectangle / Box Detection (Corner Coverage & Boundary Proximity)
         // ----------------------------------------------------------------------
         var boxPerimeter = 2 * (width + height);
         var perimRatio = totalLength / (boxPerimeter || 1.0);
         if (perimRatio > 0.65 && perimRatio < 1.45) {
-            return {
-                type: "rect",
-                x: minX,
-                y: minY,
-                cx: cx,
-                cy: cy,
-                width: width,
-                height: height
-            };
+            // Verify 4-corner presence
+            var diag = Math.sqrt(width * width + height * height) || 1.0;
+            var corners = [
+                { x: minX, y: minY }, { x: maxX, y: minY },
+                { x: maxX, y: maxY }, { x: minX, y: maxY }
+            ];
+            var maxCornerDist = 0;
+            for (var c = 0; c < 4; c++) {
+                var cMin = Infinity;
+                for (var pIdx = 0; pIdx < n; pIdx++) {
+                    var cdx = points[pIdx].x - corners[c].x;
+                    var cdy = points[pIdx].y - corners[c].y;
+                    var cd = Math.sqrt(cdx * cdx + cdy * cdy);
+                    if (cd < cMin) cMin = cd;
+                }
+                if (cMin > maxCornerDist) maxCornerDist = cMin;
+            }
+
+            // Verify points stay near outer bounding box perimeter
+            var minDim = Math.min(width, height) || 1.0;
+            var sumDistToBoundary = 0;
+            for (var bIdx = 0; bIdx < n; bIdx++) {
+                var pB = points[bIdx];
+                var dEdgeX = Math.min(Math.abs(pB.x - minX), Math.abs(pB.x - maxX));
+                var dEdgeY = Math.min(Math.abs(pB.y - minY), Math.abs(pB.y - maxY));
+                sumDistToBoundary += Math.min(dEdgeX, dEdgeY);
+            }
+            var meanDistToBoundary = sumDistToBoundary / n;
+
+            if (maxCornerDist / diag < 0.28 && meanDistToBoundary / minDim < 0.20) {
+                return {
+                    type: "rect",
+                    x: minX,
+                    y: minY,
+                    cx: cx,
+                    cy: cy,
+                    width: width,
+                    height: height
+                };
+            }
         }
     }
 
